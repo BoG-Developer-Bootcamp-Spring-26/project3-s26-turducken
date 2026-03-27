@@ -12,7 +12,7 @@ export async function getAnimal(animalId: string) {
     return retrievedAnimal;
 }
 
-export async function updateAnimal(animalId: string, newData: AnimalData) {
-    const updatedAnimal = await animal.findByIdAndUpdate(animalId, newData);
+export async function updateAnimal(animalId: string, newHours: Number) {
+    const updatedAnimal = await animal.findByIdAndUpdate(animalId, { hoursTrained: newHours });
     return updatedAnimal;
 }

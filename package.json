@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "argon2": "^0.44.0",
     "mongoose": "^9.3.3",
     "next": "^16.0.1",
     "react": "19.2.0",
@@ -18,6 +19,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "baseline-browser-mapping": "^2.10.11",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

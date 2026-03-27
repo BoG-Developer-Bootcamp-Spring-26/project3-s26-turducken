@@ -29,4 +29,4 @@ const trainingLogSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.model("TrainingLog", trainingLogSchema);
+export default mongoose.models.TrainingLog || mongoose.model("TrainingLog", trainingLogSchema);
