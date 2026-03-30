@@ -1,6 +1,9 @@
+import Footer from '@/components/Footer';
+import TitleBar from '@/components/TitleBar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { heebo, oswald } from '.';
 
 export default function Signup() {
   const router = useRouter();
@@ -51,9 +54,12 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h1 className="text-2xl font-bold mb-6 text-center">Create Account</h1>
+    <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
+        <TitleBar />
+      <main className="flex-grow flex flex-col items-center justify-center p-4 z-10">
+        <div className="w-full max-w-lg">
+
+        <h1 className="text-5xl font-heebo font-bold mb-10 text-center text-black">Create Account</h1>
         
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
@@ -61,13 +67,13 @@ export default function Signup() {
           </div>
         )}
 
-        <form onSubmit={handleSignup} className="flex flex-col gap-4">
+        <form onSubmit={handleSignup} className="flex flex-col gap-6">
           <input 
             type="text" 
             placeholder="Full Name" 
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="border p-2 rounded w-full" 
+            className="w-full border-b-2 border-[#d21312] py-1 text-gray-800 bg-transparent placeholder-gray-500 focus:outline-none focus:border-red-700 transition-colors" 
             required
           />
           <input 
@@ -75,7 +81,7 @@ export default function Signup() {
             placeholder="Email Address" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border p-2 rounded w-full" 
+            className="w-full border-b-2 border-[#d21312] py-1 text-gray-800 bg-transparent placeholder-gray-500 focus:outline-none focus:border-red-700 transition-colors" 
             required
           />
           <input 
@@ -83,45 +89,50 @@ export default function Signup() {
             placeholder="Choose a Password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border p-2 rounded w-full" 
+            className="w-full border-b-2 border-[#d21312] py-1 text-gray-800 bg-transparent placeholder-gray-500 focus:outline-none focus:border-red-700 transition-colors" 
             required
           />
-          
+
           <input 
             type="password" 
             placeholder="Confirm Password" 
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="border p-2 rounded w-full" 
+            className="w-full border-b-2 border-[#d21312] py-1 text-gray-800 bg-transparent placeholder-gray-500 focus:outline-none focus:border-red-700 transition-colors" 
             required
           />
           
-          <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <label className="flex items-center gap-2 text-gray-500 cursor-pointer">
             <input 
               type="checkbox" 
               checked={admin}
               onChange={(e) => setAdmin(e.target.checked)}
-              className="w-4 h-4"
+              className="size-5 rounded-none border-2 border-red-600 appearance-none
+                        checked:bg-red-600 checked:border-red-600
+                        checked:bg-[url('https://api.iconify.design/heroicons:check-16-solid.svg?color=white')]
+                        bg-center bg-no-repeat cursor-pointer"
             />
-            Register as Admin
+            Admin Access
           </label>
 
           <button 
             type="submit" 
             disabled={isLoading}
-            className="bg-green-600 text-white font-bold py-2 rounded hover:bg-green-700 transition disabled:bg-green-400"
+            className="w-full bg-[#d21312] text-white font-semibold text-2xl py-2.5 mt-4 rounded-lg hover:bg-red-700 transition disabled:bg-red-400 flex justify-center items-center"
           >
             {isLoading ? 'Creating...' : 'Sign Up'}
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm">
+        <div className="mt-6 text-center text-md">
           <span className="text-gray-600">Already have an account? </span>
-          <Link href="/" className="text-blue-600 hover:underline font-semibold">
-            Log in here
+          <Link href="/" className="text-black font-bold hover:underline">
+            Sign in
           </Link>
         </div>
       </div>
+      </main>
+      <Footer />
     </div>
   );
 }

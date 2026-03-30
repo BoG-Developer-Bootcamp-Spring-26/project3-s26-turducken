@@ -1,6 +1,20 @@
+import TitleBar from '@/components/TitleBar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { Oswald, Heebo } from "next/font/google";
+import "./styles/globals.css";
+import Footer from '@/components/Footer';
+
+export const oswald = Oswald({
+  subsets: ["latin"],
+  variable: "--font-oswald",
+});
+
+export const heebo = Heebo({
+  subsets: ["latin"],
+  variable: "--font-heebo",
+});
 
 export default function Login() {
   const router = useRouter();
@@ -41,50 +55,59 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h1 className="text-2xl font-bold mb-6 text-center text-slate-800">Log In</h1>
-        
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleLogin} className="flex flex-col gap-4">
-          <input 
-            type="email" 
-            placeholder="Email Address" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
-            required
-          />
-          <input 
-            type="password" 
-            placeholder="Password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
-            required
-          />
+    <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
+        <TitleBar />
+      <main className="flex-grow flex flex-col items-center justify-center p-4 z-10">
+        <div className="w-full max-w-lg">
           
-          <button 
-            type="submit" 
-            disabled={isLoading}
-            className="bg-blue-600 text-white font-bold py-2 rounded hover:bg-blue-700 transition disabled:bg-blue-400 flex justify-center items-center"
-          >
-            {isLoading ? 'Verifying...' : 'Log In'}
-          </button>
-        </form>
+          <h1 className="text-5xl font-heebo font-bold mb-10 text-center text-black">Login</h1>
+          
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-sm text-center">
+              {error}
+            </div>
+          )}
 
-        <div className="mt-6 text-center text-sm">
-          <span className="text-gray-600">Don't have an account? </span>
-          <Link href="/signup" className="text-blue-600 hover:underline font-semibold">
-            Create one
-          </Link>
+          <form onSubmit={handleLogin} className="flex flex-col gap-6">
+            
+            <input 
+              type="email" 
+              placeholder="Email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full border-b-2 border-[#d21312] py-1 text-gray-800 bg-transparent placeholder-gray-500 focus:outline-none focus:border-red-700 transition-colors" 
+              required
+            />
+            
+            <input 
+              type="password" 
+              placeholder="Password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full border-b-2 border-[#d21312] py-1 text-gray-800 bg-transparent placeholder-gray-500 focus:outline-none focus:border-red-700 transition-colors" 
+              required
+            />
+            
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              className="w-full bg-[#cc1a1a] text-2xl text-white font-semibold py-2.5 mt-4 rounded-lg hover:bg-red-700 transition disabled:bg-red-400 flex justify-center items-center"
+            >
+              {isLoading ? 'Verifying...' : 'Log in'}
+            </button>
+          </form>
+
+          <div className="mt-6 text-center text-md">
+            <span className="text-gray-600">Don't have an account? </span>
+            <Link href="/signup" className="text-black font-bold hover:underline">
+              Sign up
+            </Link>
+          </div>
         </div>
-      </div>
+      </main>
+
+      <Footer />
+
     </div>
   );
 }
