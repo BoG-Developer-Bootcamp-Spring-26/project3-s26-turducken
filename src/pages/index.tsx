@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Oswald, Heebo } from "next/font/google";
-import "./styles/globals.css";
 import Footer from '@/components/Footer';
 
 export const oswald = Oswald({

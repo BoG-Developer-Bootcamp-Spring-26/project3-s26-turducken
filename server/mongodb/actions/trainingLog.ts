@@ -4,7 +4,7 @@ import trainingLog from "../models/TrainingLog";
 export async function createTrainingLog(trainingLogData: TrainingLogData) {
     const newTrainingLog = new trainingLog(trainingLogData);
     await newTrainingLog.save();
-    return trainingLog;
+    return newTrainingLog;
 }
 
 export async function getTrainingLog(trainingLogId: string) {

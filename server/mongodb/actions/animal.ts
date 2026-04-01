@@ -4,7 +4,7 @@ import animal from "../models/Animal";
 export async function createAnimal(animalData: AnimalData) {
     const newAnimal = new animal(animalData);
     await newAnimal.save();
-    return animal;
+    return newAnimal;
 }
 
 export async function getAnimal(animalId: string) {

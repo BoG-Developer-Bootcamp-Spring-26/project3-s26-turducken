@@ -13,79 +13,102 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<TrainingLogApiData>,
 ) {
-  if (req.method === 'POST') {
-    try {
-        if (!req.body.user || !req.body.animal || !req.body.title || !req.body.date || !req.body.description || !req.body.hours) {
-            return res.status(400).json({
-                message: "User, animal, title, date, description, and hours are required for creating a trainingLog!"
+    if (req.method === 'GET') {
+        try {
+            if (!req.query.trainingLogId) {
+                return res.status(400).json({
+                    message: "TrainingLog ID is required for retrieving a trainingLog!"
+                });
+            }
+            await connectDb();
+            const trainingLog = await getTrainingLog(req.query.trainingLogId as string);
+            if (!trainingLog) {
+                return res.status(400).json({
+                    message: "No trainingLog found with the provided ID!"
+                });
+            }
+            res.status(200).json({
+                trainingLogData: trainingLog,
+                message: "TrainingLog successfully retrieved!",
+            });
+        } catch (e) {
+            res.status(500).json({
+                message: "There was an error when retrieving your trainingLog from the database."
             });
         }
-        await connectDb();
-        const animal = await getAnimal(req.body.animal);
-        if (!animal || animal.owner.toString() !== req.body.user) {
-            return res.status(400).json({ message: "The specified animal does not belong to this user!" });
-        }
-        const trainingLogData = {
-            user: req.body.user,
-            animal: req.body.animal,
-            title: req.body.title,
-            date: req.body.date,
-            description: req.body.description,
-            hours: req.body.hours,
-        } as TrainingLogData;
-        const trainingLog = await createTrainingLog(trainingLogData);
-        const newTotalHours = (animal.hoursTrained) + req.body.hours;
-        await updateAnimal(animal._id.toString(), newTotalHours);
-        res.status(200).json({
-            trainingLogData: trainingLogData,
-            message: "TrainingLog successfully created!",
-        });
-    } catch (e) {
-        res.status(500).json({
-            message: "There was an error when adding your trainingLog to the database."
-        });
-    }
-  } else if (req.method === 'PATCH') {
-    try {
-        if (!req.body.user || !req.body.animal || !req.body.title || !req.body.date || !req.body.description || !req.body.hours) {
-            return res.status(400).json({
-                message: "Updating a trainingLog requires user, animal, title, date, description, and hours!"
-            });
-        }
-        await connectDb();
-        const oldLog = await getTrainingLog(req.body.trainingLogId);
-        if (!oldLog) {
-            return res.status(400).json({
-                message: "TrainingLog not found!"
-            });
-        }
-        const hoursDifference = req.body.hours - oldLog.hours;
-        const trainingLogData = {
-            user: req.body.user,
-            animal: req.body.animal,
-            title: req.body.title,
-            date: req.body.date,
-            description: req.body.description,
-            hours: req.body.hours,
-        };
-        const trainingLog = await updateTrainingLog(req.body.trainingLogId, trainingLogData);
-        if (hoursDifference !== 0) {
+    } else if (req.method === 'POST') {
+        try {
+            if (!req.body.user || !req.body.animal || !req.body.title || !req.body.date || !req.body.description || !req.body.hours) {
+                return res.status(400).json({
+                    message: "User, animal, title, date, description, and hours are required for creating a trainingLog!"
+                });
+            }
+            await connectDb();
             const animal = await getAnimal(req.body.animal);
-            const newTotalHours = (animal.hoursTrained) + hoursDifference;
+            if (!animal || animal.owner.toString() !== req.body.user) {
+                return res.status(400).json({ message: "The specified animal does not belong to this user!" });
+            }
+            const trainingLogData = {
+                user: req.body.user,
+                animal: req.body.animal,
+                title: req.body.title,
+                date: req.body.date,
+                description: req.body.description,
+                hours: req.body.hours,
+            } as TrainingLogData;
+            const trainingLog = await createTrainingLog(trainingLogData);
+            const newTotalHours = (animal.hoursTrained) + req.body.hours;
             await updateAnimal(animal._id.toString(), newTotalHours);
+            res.status(200).json({
+                trainingLogData: trainingLogData,
+                message: "TrainingLog successfully created!",
+            });
+        } catch (e) {
+            res.status(500).json({
+                message: "There was an error when adding your trainingLog to the database."
+            });
         }
-        res.status(200).json({
-            trainingLogData: trainingLogData,
-            message: "Successfully updated trainingLog!",
-        })
-    } catch (e) {
+    } else if (req.method === 'PATCH') {
+        try {
+            if (!req.body.user || !req.body.animal || !req.body.title || !req.body.date || !req.body.description || !req.body.hours) {
+                return res.status(400).json({
+                    message: "Updating a trainingLog requires user, animal, title, date, description, and hours!"
+                });
+            }
+            await connectDb();
+            const oldLog = await getTrainingLog(req.body.trainingLogId);
+            if (!oldLog) {
+                return res.status(400).json({
+                    message: "TrainingLog not found!"
+                });
+            }
+            const hoursDifference = req.body.hours - oldLog.hours;
+            const trainingLogData = {
+                user: req.body.user,
+                animal: req.body.animal,
+                title: req.body.title,
+                date: req.body.date,
+                description: req.body.description,
+                hours: req.body.hours,
+            };
+            const trainingLog = await updateTrainingLog(req.body.trainingLogId, trainingLogData);
+            if (hoursDifference !== 0) {
+                const animal = await getAnimal(req.body.animal);
+                const newTotalHours = (animal.hoursTrained) + hoursDifference;
+                await updateAnimal(animal._id.toString(), newTotalHours);
+            }
+            res.status(200).json({
+                trainingLogData: trainingLogData,
+                message: "Successfully updated trainingLog!",
+            })
+        } catch (e) {
+            res.status(500).json({
+                message: "There was an error when updating your trainingLog to the database."
+            });
+        }
+    } else {
         res.status(500).json({
-            message: "There was an error when updating your trainingLog to the database."
+            message: "This API doesn't support this HTTP method!",
         });
     }
-  } else {
-    res.status(500).json({
-        message: "This API doesn't support this HTTP method!",
-    });
-  }
 }
