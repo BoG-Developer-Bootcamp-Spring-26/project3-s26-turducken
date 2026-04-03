@@ -6,7 +6,7 @@ export default function TitleBar() {
         alt="App Logo"
         className="h-10 w-16 mt-5 mb-5 ml-5"
       />
-      <p className="text-4xl font-medium font-oswald tracking-tight">Progress</p>
+      <p className="text-4xl font-medium font-oswald tracking-tight text-black">Progress</p>
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import TitleBar from '@/components/TitleBar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Oswald, Heebo } from "next/font/google";
+import { UserContext } from "../context/UserContext";
 import Footer from '@/components/Footer';
 
 export const oswald = Oswald({
@@ -17,6 +18,11 @@ export const heebo = Heebo({
 
 export default function Login() {
   const router = useRouter();
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("Signup must be used within a UserContext.Provider");
+  }
+  const { setUserId } = context;
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +50,8 @@ export default function Login() {
         throw new Error(data.message || 'Failed to log in');
       }
 
-      router.push(`/dashboard/${data.userId}`);
+      setUserId(data.userId);
+      router.push(`/dashboard/training-logs`);
       
     } catch (err: any) {
       setError(err.message);
