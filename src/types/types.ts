@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface UserData {
     fullName: string;
@@ -22,4 +23,9 @@ export interface TrainingLogData {
     date: Date;
     description: string;
     hours: number;
+}
+
+export interface UserContextType {
+    userId: string | null;
+    setUserId: Dispatch<SetStateAction<string | null>>;
 }

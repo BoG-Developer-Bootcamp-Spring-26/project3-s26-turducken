@@ -2,11 +2,17 @@ import Footer from '@/components/Footer';
 import TitleBar from '@/components/TitleBar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from "../context/UserContext";
 import { heebo, oswald } from '.';
 
 export default function Signup() {
   const router = useRouter();
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("Signup must be used within a UserContext.Provider");
+  }
+  const { setUserId } = context;
   
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -44,7 +50,8 @@ export default function Signup() {
         throw new Error(data.message || 'Something went wrong');
       }
       console.log(JSON.stringify(data))
-      router.push(`/dashboard/${data.userData._id}`);
+      setUserId(data.userData._id);
+      router.push(`/dashboard/training-logs`);
       
     } catch (err: any) {
       setError(err.message);
