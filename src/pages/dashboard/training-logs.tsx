@@ -23,6 +23,7 @@ export default function TrainingLogs() {
   return (
     <div>
         <h1>Training Logs page for: {userId}</h1>
+        <button onClick={() => router.push("/dashboard/animals")} className="cursor-pointer border-2">to Animal Logs</button>
     </div>
   )
 }
