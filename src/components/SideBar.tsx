@@ -12,6 +12,7 @@ import actAllAnimals from "../../public/images/activeAllAnimalsLogo.png";
 import actAllUsers from "../../public/images/activeAllUsersLogo.png";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
+import User from "../../server/mongodb/models/User";
 
 interface SideBarProps {
     fullName: string,
@@ -74,23 +75,45 @@ export default function SideBar({
     return (
         <div>
             <nav>
-            {NAV_ITEMS.map((item) => {
-                    const active = pathname === item.href;
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className={"flex"}
-                        >
-                            {active ? item.icon.active : item.icon.inactive}
-                            <span className={active ? "text-white font-medium" : "text-[#565252] font-normal"}>
-                                {item.label}
-                            </span>
-                        </Link>
-                    );
-                })
-            }
+                {NAV_ITEMS.map((item) => {
+                        const active = pathname === item.href;
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={"flex"}
+                            >
+                                {active ? item.icon.active : item.icon.inactive}
+                                <span className={active ? "text-white font-medium" : "text-[#565252] font-normal"}>
+                                    {item.label}
+                                </span>
+                            </Link>
+                        );
+                    })
+                }
             </nav>
+
+            {admin && (
+                // add horiz bar and title
+                <nav>
+                    {ADMIN_ITEMS.map((item) => {
+                            const active = pathname === item.href;
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={"flex"}
+                                >
+                                    {active ? item.icon.active : item.icon.inactive}
+                                    <span className={active ? "text-white font-medium" : "text-[#565252] font-normal"}>
+                                        {item.label}
+                                    </span>
+                                </Link>
+                            );
+                        })
+                    }
+                </nav>
+            )}
         </div>
     )
 }
