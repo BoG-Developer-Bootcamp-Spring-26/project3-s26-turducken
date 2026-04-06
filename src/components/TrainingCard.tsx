@@ -1,24 +1,44 @@
 import Image from 'next/image';
-import mongoose from 'mongoose';
 
 interface TrainingCardProps {
-    key: string;
+    trainingLogId: string;
     userName: string;
+    animal: string;
     animalBreed: string;
     animalName: string;
     title: string;
     date: Date;
     description: string;
     hours: number;
+    setInitialData: (data: any) => void;
+    setShowForm: (show: boolean) => void;
+    setEditingLog: (log: any) => void;
 }
 
 export default function TrainingCard({
-  userName, animalBreed, animalName, title, date, description, hours
+  trainingLogId, userName, animal, animalBreed, animalName, title, date, description, hours, setInitialData, setEditingLog, setShowForm
 }: TrainingCardProps) {
+  const handleEditLog = () => {
+    setShowForm(true);
+    setEditingLog(true);
+    setInitialData({
+      trainingLogId,
+      userName,
+      animal,
+      animalBreed,
+      animalName,
+      title,
+      month: date.toLocaleString('default', { month: 'long' }),
+      day: date.getDate(),
+      year: date.getFullYear(),
+      description,
+      hours,
+    })
+  }
   return (
     <div className="flex bg-white rounded-2xl shadow-lg mb-4 overflow-hidden border border-gray-100 h-40">
       <div className="bg-blue-950 font-oswald text-white flex flex-col justify-center items-center px-4 min-w-30 gap-3">
-        <span className="text-6xl font-bold">{date.getDay()}</span>
+        <span className="text-6xl font-bold">{date.getDate()}</span>
         <span className="text-2xl">{date.toLocaleString('default', { month: 'short' })} - {date.getFullYear()}</span>
       </div>
 
@@ -37,7 +57,7 @@ export default function TrainingCard({
             {description}
           </p>
         </div>
-        <button>
+        <button onClick={handleEditLog}>
           <Image src="/images/trainingLogcardEditButton.png" alt="Edit Training Log" width={80} height={80}/>
         </button>
       </div>
