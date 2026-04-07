@@ -101,7 +101,6 @@ export default function TrainingLogs() {
         <div className="flex flex-col gap-4 pl-20 pr-20">
           {logs.length > 0 ? (
             logs.map((log) => (
-                console.log(JSON.stringify(log)),
               <TrainingCard
               key={log._id}
               trainingLogId={log._id}
