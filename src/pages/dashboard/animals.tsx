@@ -5,6 +5,7 @@ import TitleBar from "@/components/TitleBar";
 import DashboardHeader from "@/components/DashboardHeader";
 import { heebo, oswald } from "..";
 import AnimalForm from "@/components/AnimalForm";
+import AnimalCard from "@/components/AnimalCard";
 
 export default function Animals() {
     const router = useRouter();
@@ -24,6 +25,7 @@ export default function Animals() {
             const response = await fetch('/api/admin/animals');
             const allAnimals = await response.json()
             const userAnimals = allAnimals.filter((animal: any) => animal.owner === userId).sort((a: any, b: any) => b.hoursTrained - a.hoursTrained);
+            console.log("animals: ", userAnimals)
             setAnimals(userAnimals);
         } catch (error) {
                 console.error("Failed to Fetch Animals: ", error);
@@ -80,6 +82,7 @@ export default function Animals() {
   return (
       <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo`}>
         <TitleBar />
+        <button onClick={() => router.push("/dashboard/training-logs")}>Back To Training Logs</button>
         <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
         { showForm ? (
             <div>
@@ -92,9 +95,26 @@ export default function Animals() {
                />
             </div>
           ) :
-            <div>
-                <p> Hello </p>
-            </div>
+            <main className="min-w-screen mx-auto">
+                <div className="grid grid-cols-3 gap-4">
+                    {animals.length > 0 ? (
+                                animals.map((animal) => (
+                                  <AnimalCard
+                                    key={animal._id}
+                                    breed={animal.breed}
+                                    name={animal.name}
+                                    userName={animal.userName}
+                                    hoursTrained={animal.hoursTrained}
+                                    profilePicture={animal.profilePicture}
+                                    setInitialData={setInitialData}
+                                    setShowForm={setShowForm}
+                                    />
+                                ))
+                              ) : (
+                                <p className="text-xl text-gray-500">No animals found</p>
+                              )}
+                </div>
+            </main>
         }
       </div>
     )
