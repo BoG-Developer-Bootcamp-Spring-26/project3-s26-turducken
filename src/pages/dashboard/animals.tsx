@@ -96,7 +96,7 @@ export default function Animals() {
             </div>
           ) :
             <main className="min-w-screen mx-auto">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                     {animals.length > 0 ? (
                                 animals.map((animal) => (
                                   <AnimalCard

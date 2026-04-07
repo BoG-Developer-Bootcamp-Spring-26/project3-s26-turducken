@@ -43,21 +43,21 @@ export default function TrainingCard({
       </div>
 
       <div className="flex flex-1 justify-between px-6 py-4">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col md:gap-4 sm:gap-2">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <h3 className="text-3xl font-bold text-gray-900">{title}</h3>
-              <span className="text-gray-400 text-xl font-semibold">• {hours} hours</span>
+              <h3 className="md:text-3xl sm:text-xl font-bold text-gray-900">{title}</h3>
+              <span className="text-gray-400 md:text-xl sm:text-md font-semibold">• {hours} hours</span>
             </div>
-            <p className="text-gray-400 text-xl font-semibold">
+            <p className="text-gray-400 md:text-xl sm:text-md font-semibold">
               {userName} - {animalBreed} - {animalName}
             </p>
           </div>
-          <p className="text-black mt-1 text-xl">
+          <p className="text-black mt-1 md:text-xl sm:text-md">
             {description}
           </p>
         </div>
-        <button onClick={handleEditLog}>
+        <button onClick={handleEditLog} className='w-14'>
           <Image src="/images/trainingLogcardEditButton.png" alt="Edit Training Log" width={80} height={80}/>
         </button>
       </div>

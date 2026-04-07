@@ -98,7 +98,7 @@ export default function TrainingLogs() {
           </div>
         ) :
       <main className="min-w-screen mx-auto">
-        <div className="flex flex-col gap-4 pl-20 pr-20">
+        <div className="flex flex-col gap-4 md:pl-20 md:pr-20">
           {logs.length > 0 ? (
             logs.map((log) => (
               <TrainingCard
