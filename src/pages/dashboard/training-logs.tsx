@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { heebo, oswald } from "..";
 import TitleBar from "@/components/TitleBar";
 import TrainingCard from "@/components/TrainingCard";
-import TrainingLogsHeader from "@/components/TrainingLogsHeader";
+import TrainingLogsHeader from "@/components/DashboardHeader";
 import TrainingForm from "@/components/TrainingLogsForm";
 
 export default function TrainingLogs() {
@@ -48,7 +48,7 @@ export default function TrainingLogs() {
     return (
       <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
         <TitleBar />
-        <TrainingLogsHeader showForm={showForm} setShowForm={setShowForm} />
+        <TrainingLogsHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
         <p className="text-xl text-gray-500">Loading</p>
       </div>
     );
@@ -82,7 +82,8 @@ export default function TrainingLogs() {
   return (
     <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo`}>
       <TitleBar />
-      <TrainingLogsHeader showForm={showForm} setShowForm={setShowForm} />
+      <button onClick={() => router.push("/dashboard/animals")}>Go To Animals</button>
+      <TrainingLogsHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
       { showForm ? (
           <div>
              <TrainingForm
@@ -97,7 +98,7 @@ export default function TrainingLogs() {
           </div>
         ) :
       <main className="min-w-screen mx-auto">
-        <div className="flex flex-col gap-4 pl-20 pr-20">
+        <div className="flex flex-col gap-4 md:pl-20 md:pr-20">
           {logs.length > 0 ? (
             logs.map((log) => (
               <TrainingCard

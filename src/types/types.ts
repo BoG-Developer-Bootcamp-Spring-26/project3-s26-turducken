@@ -13,6 +13,7 @@ export interface AnimalData {
     breed: string;
     owner: mongoose.Schema.Types.ObjectId;
     hoursTrained: number;
+    bdate: Date;
     profilePicture: string;
 }
 
