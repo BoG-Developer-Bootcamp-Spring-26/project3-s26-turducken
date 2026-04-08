@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [userId, setUserId] = useState<string | null>(null);
   return (
     <UserContext.Provider value={{ userId, setUserId}}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </UserContext.Provider>
   );
 }
