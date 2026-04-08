@@ -59,7 +59,7 @@ export default function AnimalForm({ initialData, onSave, onCancel }: AnimalForm
       e.preventDefault();
       onSave(formData);
     }}
-    className="max-w-250 mx-auto bg-white px-2">
+    className="max-w-250 mx-auto bg-white px-2 h-full">
         <div className="space-y-5">
             <div>
                 <label className="block text-2xl font-semibold text-gray-900">Animal Name</label>

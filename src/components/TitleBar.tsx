@@ -1,6 +1,6 @@
 export default function TitleBar() {
   return (
-    <div className="flex items-center gap-1 w-full shadow-sm">
+    <div className="relative z-50 bg-white flex items-center gap-1 w-full shadow-sm">
       <img 
         src="/images/appLogo.png"
         alt="App Logo"
