@@ -6,6 +6,7 @@ import TitleBar from "@/components/TitleBar";
 import TrainingCard from "@/components/TrainingCard";
 import TrainingLogsHeader from "@/components/DashboardHeader";
 import TrainingForm from "@/components/TrainingLogsForm";
+import SideBar from "@/components/SideBar";
 
 export default function TrainingLogs() {
   const router = useRouter();
@@ -80,48 +81,50 @@ export default function TrainingLogs() {
   };
 
   return (
-    <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo`}>
+    <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
       <TitleBar />
-      <button onClick={() => router.push("/dashboard/animals")}>Go To Animals</button>
-      <TrainingLogsHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
-      { showForm ? (
-          <div>
-             <TrainingForm
-                initialData={initialData}
-                onSave={handleSave}
-                onCancel={() => {
-                  setShowForm(false)
-                  setEditingLog(false)
-                }}
-                editingLog={ editingLog }
-             />
-          </div>
-        ) :
-      <main className="min-w-screen mx-auto">
-        <div className="flex flex-col gap-4 md:pl-20 md:pr-20">
-          {logs.length > 0 ? (
-            logs.map((log) => (
-              <TrainingCard
-              key={log._id}
-              trainingLogId={log._id}
-              userName={log.userName}
-              animal={log.animal}
-              animalBreed={log.animalBreed}
-              animalName={log.animalName}
-              date={new Date(log.date)}
-              title={log.title}
-              description={log.description}
-              hours={log.hours}
-              setShowForm={setShowForm}
-              setInitialData={setInitialData}
-              setEditingLog={setEditingLog}
-            />
-            ))
-          ) : (
-            <p className="text-xl text-gray-500">No logs found</p>
-          )}
-        </div>
-      </main> }
+      <div className="flex flex-row flex-1 overflow-y-auto">
+        <SideBar fullName="Brody Lussier" admin={true} />
+        <main className="flex-1 bg-gray-50/10">
+            <TrainingLogsHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
+            { showForm ? (
+                <div>
+                    <TrainingForm
+                        initialData={initialData}
+                        onSave={handleSave}
+                        onCancel={() => {
+                        setShowForm(false)
+                        setEditingLog(false)
+                        }}
+                        editingLog={ editingLog }
+                    />
+                </div>
+                ) :
+            <div className="max-w-5xl mx-auto px-8 py-6 flex flex-col gap-4 overflow-y-auto">
+                {logs.length > 0 ? (
+                    logs.map((log) => (
+                    <TrainingCard
+                    key={log._id}
+                    trainingLogId={log._id}
+                    userName={log.userName}
+                    animal={log.animal}
+                    animalBreed={log.animalBreed}
+                    animalName={log.animalName}
+                    date={new Date(log.date)}
+                    title={log.title}
+                    description={log.description}
+                    hours={log.hours}
+                    setShowForm={setShowForm}
+                    setInitialData={setInitialData}
+                    setEditingLog={setEditingLog}
+                    />
+                    ))
+                ) : (
+                    <p className="text-xl text-gray-500">No logs found</p>
+                )}
+            </div>}
+        </main>
+      </div>
     </div>
   )
 }

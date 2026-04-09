@@ -6,6 +6,7 @@ import DashboardHeader from "@/components/DashboardHeader";
 import { heebo, oswald } from "..";
 import AnimalForm from "@/components/AnimalForm";
 import AnimalCard from "@/components/AnimalCard";
+import SideBar from "@/components/SideBar";
 
 export default function Animals() {
     const router = useRouter();
@@ -79,25 +80,27 @@ export default function Animals() {
       }
   };
 
-  return (
-      <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo`}>
+ return (
+      <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
         <TitleBar />
-        <button onClick={() => router.push("/dashboard/training-logs")}>Back To Training Logs</button>
-        <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
-        { showForm ? (
-            <div>
-               <AnimalForm
-                  initialData={initialData}
-                  onSave={handleSave}
-                  onCancel={() => {
-                    setShowForm(false)
-                  }}
-               />
-            </div>
-          ) :
-            <main className="min-w-screen mx-auto">
-                <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-                    {animals.length > 0 ? (
+        <div className="flex flex-row flex-1 overflow-hidden">
+            <SideBar fullName="Long Lam" admin={true} />
+            <main className="flex-1 flex flex-col">
+                <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
+                { showForm ? (
+                    <div className="p-8">
+                       <AnimalForm
+                          initialData={initialData}
+                          onSave={handleSave}
+                          onCancel={() => {
+                            setShowForm(false)
+                          }}
+                       />
+                    </div>
+                  ) : (
+                    <div className="p-8 mx-auto w-full max-w-7xl overflow-y-auto">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
+                            {animals.length > 0 ? (
                                 animals.map((animal) => (
                                   <AnimalCard
                                     key={animal._id}
@@ -108,14 +111,16 @@ export default function Animals() {
                                     profilePicture={animal.profilePicture}
                                     setInitialData={setInitialData}
                                     setShowForm={setShowForm}
-                                    />
+                                  />
                                 ))
                               ) : (
                                 <p className="text-xl text-gray-500">No animals found</p>
                               )}
-                </div>
+                        </div>
+                    </div>
+                  )}
             </main>
-        }
+        </div>
       </div>
     )
 }
