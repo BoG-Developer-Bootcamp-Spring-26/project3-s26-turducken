@@ -83,12 +83,12 @@ export default function TrainingLogs() {
   return (
     <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
       <TitleBar />
-      <div className="flex flex-row flex-1 overflow-y-auto">
+      <div className="flex flex-row overflow-hidden">
         <SideBar fullName="Brody Lussier" admin={true} />
-        <main className="flex-1 bg-gray-50/10">
+        <main className="flex-1 flex flex-col bg-gray-50/10">
             <TrainingLogsHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
             { showForm ? (
-                <div>
+                <div className="flex-1 overflow-y-auto">
                     <TrainingForm
                         initialData={initialData}
                         onSave={handleSave}
@@ -100,7 +100,7 @@ export default function TrainingLogs() {
                     />
                 </div>
                 ) :
-            <div className="max-w-5xl mx-auto px-8 py-6 flex flex-col gap-4 overflow-y-auto">
+            <div className="w-full mx-auto px-8 py-6 flex flex-col gap-4 overflow-y-auto">
                 {logs.length > 0 ? (
                     logs.map((log) => (
                     <TrainingCard
