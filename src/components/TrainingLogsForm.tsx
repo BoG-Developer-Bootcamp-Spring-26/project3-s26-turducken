@@ -89,28 +89,28 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
       onSave(formData);
     }}
     className="max-w-250 mx-auto bg-white px-2">
-        <div className="space-y-5">
+        <div className="space-y-3">
             <div>
-                <label className="block text-2xl font-semibold text-gray-900">Title</label>
+                <label className="block text-xl font-semibold text-gray-900">Title</label>
                 
                 <input
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
                     placeholder="Title"
-                    className="text-gray-600 text-2xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
+                    className="text-gray-600 text-xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
                     required
                 />
             </div>
 
             <div>
-                <label className="block text-2xl font-semibold text-gray-900">Select Animal</label>
+                <label className="block text-xl font-semibold text-gray-900">Select Animal</label>
                 <select
                     required
                     name="animal"
                     value={formData.animal}
                     onChange={handleChange}
-                    className="text-gray-600 text-2xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md bg-white appearance-none">
+                    className="text-gray-600 text-xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md bg-white appearance-none">
                     <option value="" disabled>Select an animal</option>
                     {animals.map((animal) => (
                             <option value={ animal._id }>{ animal.name } - { animal.breed }</option>
@@ -119,7 +119,7 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
             </div>
 
             <div>
-                <label className="block text-2xl font-semibold text-gray-900">Total hours trained</label>
+                <label className="block text-xl font-semibold text-gray-900">Total hours trained</label>
                 <input
                     required
                     name="hours"
@@ -127,18 +127,18 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
                     value={formData.hours}
                     onChange={handleChange}
                     placeholder="Hours"
-                    className="text-gray-600 text-2xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
+                    className="text-gray-600 text-xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
                 />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <div>
-                    <label className="block text-2xl font-semibold text-gray-900">Month</label>
+                    <label className="block text-xl font-semibold text-gray-900">Month</label>
                     <select
                     required
                     name="month"
                     value={formData.month}
                     onChange={handleChange}
-                    className="text-gray-600 text-2xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md bg-white">
+                    className="text-gray-600 text-xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md bg-white">
                         <option value="January">January</option>
                         <option value="February">February</option>
                         <option value="March">March</option>
@@ -154,31 +154,31 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
                     </select>
                 </div>
                 <div>
-                    <label className="block text-2xl font-semibold text-gray-900">Date</label>
+                    <label className="block text-xl font-semibold text-gray-900">Date</label>
                     <input
                     required
                     name="day"
                     type="text"
                     value={formData.day}
                     onChange={handleChange}
-                    className="text-gray-600 text-2xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
+                    className="text-gray-600 text-xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
                     />
                 </div>
                 <div>
-                    <label className="block text-2xl font-semibold text-gray-900">Year</label>
+                    <label className="block text-xl font-semibold text-gray-900">Year</label>
                     <input
                     required
                     name="year"
                     type="text"
                     value={formData.year}
                     onChange={handleChange}
-                    className="text-gray-600 text-2xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
+                    className="text-gray-600 text-xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
                     />
                 </div>
             </div>
 
             <div>
-                <label className="block text-2xl font-semibold text-gray-900">Note</label>
+                <label className="block text-xl font-semibold text-gray-900">Note</label>
                 <textarea
                     required
                     name="description"
@@ -186,7 +186,7 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
                     value={formData.description}
                     onChange={handleChange}
                     placeholder="Note"
-                    className="text-gray-600 text-2xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
+                    className="text-gray-600 text-xl font-semibold w-full py-5 px-6 border border-gray-300 border-2 rounded-md"
                 />
             </div>
 
@@ -194,12 +194,12 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="flex-1 py-2 px-3 border-2 border-red-700 text-3xl text-red-700 rounded-md hover:bg-red-50 transition-colors max-w-50">
+                    className="flex-1 py-2 px-3 border-2 border-red-700 text-2xl text-red-700 rounded-md hover:bg-red-50 transition-colors max-w-50">
                     Cancel
                 </button>
                 <button
                     type="submit"
-                    className="flex-1 py-2 px-3 bg-red-700 text-white text-3xl font-semibold rounded-md hover:bg-red-800 transition-colors max-w-50">
+                    className="flex-1 py-2 px-3 bg-red-700 text-white text-2xl font-semibold rounded-md hover:bg-red-800 transition-colors max-w-50">
                     {editingLog? "Edit": "Save"}
                 </button>
             </div>

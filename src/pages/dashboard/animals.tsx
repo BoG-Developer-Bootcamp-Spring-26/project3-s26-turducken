@@ -88,7 +88,7 @@ export default function Animals() {
             <main className="flex-1 flex flex-col">
                 <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
                 { showForm ? (
-                    <div className="p-8">
+                    <div className="p-8 overflow-y-auto">
                        <AnimalForm
                           initialData={initialData}
                           onSave={handleSave}
