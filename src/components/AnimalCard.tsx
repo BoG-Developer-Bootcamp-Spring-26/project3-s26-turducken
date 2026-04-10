@@ -10,7 +10,7 @@ export default function AnimalCard({
     breed, name, hoursTrained, profilePicture, userName
 } : AnimalCardProps) {
     return (
-        <div className="w-full mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="w-full mx-auto bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
             <img 
                 src={profilePicture}
                 className="w-full h-64 object-cover"

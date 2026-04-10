@@ -36,7 +36,7 @@ export default function TrainingCard({
     })
   }
   return (
-    <div className="flex bg-white rounded-2xl shadow-lg mb-4 overflow-hidden border border-gray-100 h-40 shrink-0 mr-20 ml-20">
+    <div className="flex bg-white rounded-2xl shadow-md mb-4 overflow-hidden border border-gray-100 h-40 shrink-0 mr-20 ml-20">
       <div className="bg-blue-950 font-oswald text-white flex flex-col justify-center items-center px-4 min-w-30 gap-3">
         <span className="text-6xl font-bold">{date.getDate()}</span>
         <span className="text-2xl">{date.toLocaleString('default', { month: 'short' })} - {date.getFullYear()}</span>

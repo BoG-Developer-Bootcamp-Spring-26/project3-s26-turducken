@@ -8,7 +8,7 @@ export default function UserCard({
     fullName, email, admin
 } : UserCardProps) {
     return (
-        <div className="w-full mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="w-full mx-auto bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
             <div className="p-5 flex items-center gap-3">
                 <div className="size-10 rounded-full bg-red-600 flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-lg">{fullName[0].toUpperCase()}</span>
