@@ -26,8 +26,7 @@ export default function TrainingLogs() {
     try {
       const response = await fetch("/api/admin/trainings");
       const allLogs = await response.json();
-      const userLogs = allLogs.filter((log: any) => log.user === userId).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      setLogs(userLogs);
+      setLogs(allLogs);
     } catch (error) {
       console.error("Failed to fetch logs:", error);
     } finally {
@@ -49,7 +48,7 @@ export default function TrainingLogs() {
     return (
       <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
         <TitleBar />
-        <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
+        <DashboardHeader setShowForm={setShowForm} title="Training logs"/>
         <p className="text-xl text-gray-500">Loading</p>
       </div>
     );
@@ -86,7 +85,7 @@ export default function TrainingLogs() {
       <div className="flex flex-row overflow-hidden">
         <SideBar fullName="Brody Lussier" admin={true} />
         <main className="flex-1 flex flex-col bg-gray-50/10">
-            <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
+            <DashboardHeader setShowForm={setShowForm} title="All training logs"/>
             { showForm ? (
                 <div className="flex-1 overflow-y-auto">
                     <TrainingForm
