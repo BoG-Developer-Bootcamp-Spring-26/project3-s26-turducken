@@ -82,7 +82,7 @@ export default function Animals() {
       <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
         <TitleBar />
         <div className="flex flex-row flex-1 overflow-hidden">
-            <SideBar fullName="Long Lam" admin={true} />
+            <SideBar />
             <main className="flex-1 flex flex-col">
                 <DashboardHeader setShowForm={setShowForm} title="All animals"/>
                 { showForm ? (

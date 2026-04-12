@@ -13,13 +13,8 @@ import actAllUsers from "../../public/images/activeAllUsersLogo.png";
 import logoutButton from "../../public/images/logoutLogo.png"
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
-import { useContext } from "react"
+import { useState, useContext, useEffect } from "react";
 import { UserContext } from "@/context/UserContext";
-
-interface SideBarProps {
-    fullName: string,
-    admin: boolean
-}
 
 const NAV_ITEMS = [
     {
@@ -67,15 +62,46 @@ const ADMIN_ITEMS = [
     }
 ]
 
-export default function SideBar({
-    fullName,
-    admin
-}: SideBarProps) {
+export default function SideBar() {
     const router = useRouter();
     const pathname = usePathname();
-    const initials = fullName[0].toUpperCase();
-    
     const context = useContext(UserContext);
+    const [fullName, setFullName] = useState("");
+    const [admin, setAdmin] = useState(false);
+
+    if (!context) {
+        return <div>Error: UserContext not found.</div>;
+      }
+      const { userId } = context;
+    
+      const fetchData = async () => {
+        try {
+            const response = await fetch(`/api/user?userId=${userId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+                });
+            if (response.ok) {
+                const data = await response.json()
+                setFullName(data.userData.fullName);
+                setAdmin(data.userData.admin);
+            } else {
+                const errorData = await response.json();
+                alert(`Failed to get user: ${errorData.message || 'Unknown error'}`);
+            }
+            } catch (error) {
+            console.error("Failed to get user information:", error);
+            }
+        };
+    
+        useEffect(() => {
+            if (!userId) {
+            router.push("/");
+            return;
+            }
+            fetchData();
+        }, [userId, router]);
+
+    const initials = fullName ? fullName[0].toUpperCase() : "";
 
     function handleLogout() {
         context?.setUserId(null);

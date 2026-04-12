@@ -83,7 +83,7 @@ export default function TrainingLogs() {
     <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
       <TitleBar />
       <div className="flex flex-row overflow-hidden">
-        <SideBar fullName="Brody Lussier" admin={true} />
+        <SideBar />
         <main className="flex-1 flex flex-col bg-gray-50/10">
             <DashboardHeader setShowForm={setShowForm} title="All training logs"/>
             { showForm ? (
