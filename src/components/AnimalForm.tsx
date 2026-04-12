@@ -1,17 +1,14 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "@/context/UserContext";
 import { useRouter } from "next/router";
-import { heebo, oswald } from "@/pages";
 
 interface AnimalFormProps {
-  initialData?: any;
   onSave: (data: any) => void;
   onCancel: () => void;
 }
 
-export default function AnimalForm({ initialData, onSave, onCancel }: AnimalFormProps) {
+export default function AnimalForm({ onSave, onCancel }: AnimalFormProps) {
     const router = useRouter();
-    const now = new Date(); 
     const [formData, setFormData] = useState({
         trainingLogId: "",
         name: "",
@@ -21,18 +18,11 @@ export default function AnimalForm({ initialData, onSave, onCancel }: AnimalForm
         profilePicture: "", 
     });
     const context = useContext(UserContext);
-    const [loading, setLoading] = useState(false);
 
     if (!context) {
         return <div>Error: UserContext not found. Ensure this page is wrapped in the Provider.</div>;
       }
       const { userId } = context;
-    
-      useEffect(() => {
-        if (initialData) {
-          setFormData(initialData);
-        }
-      }, [initialData]);
 
       useEffect(() => {
         if (!userId) {
@@ -40,14 +30,6 @@ export default function AnimalForm({ initialData, onSave, onCancel }: AnimalForm
           return;
         }
     }, [userId, router]);
-
-      if (loading) {
-        return (
-          <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
-            <p className="text-xl text-gray-500">Loading</p>
-          </div>
-        );
-      }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

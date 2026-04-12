@@ -24,9 +24,8 @@ export default function Animals() {
         try {
             const response = await fetch('/api/admin/animals');
             const allAnimals = await response.json()
-            const userAnimals = allAnimals.filter((animal: any) => animal.owner === userId).sort((a: any, b: any) => b.hoursTrained - a.hoursTrained);
-            console.log("animals: ", userAnimals)
-            setAnimals(userAnimals);
+            console.log("animals: ", allAnimals)
+            setAnimals(allAnimals);
         } catch (error) {
                 console.error("Failed to Fetch Animals: ", error);
         } finally {
@@ -48,7 +47,7 @@ export default function Animals() {
         return (
           <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
             <TitleBar />
-            <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
+            <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="All animals"/>
             <p className="text-xl text-gray-500">Loading</p>
           </div>
         );
@@ -85,9 +84,9 @@ export default function Animals() {
         <div className="flex flex-row flex-1 overflow-hidden">
             <SideBar fullName="Long Lam" admin={true} />
             <main className="flex-1 flex flex-col">
-                <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
+                <DashboardHeader setShowForm={setShowForm} title="All animals"/>
                 { showForm ? (
-                    <div className="p-8 overflow-y-auto">
+                    <div className="p-8">
                        <AnimalForm
                           onSave={handleSave}
                           onCancel={() => {

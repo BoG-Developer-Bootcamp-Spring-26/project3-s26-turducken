@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "@/context/UserContext";
 import { useRouter } from "next/router";
-import { heebo, oswald } from "@/pages";
+import { heebo } from "@/pages";
 
 interface TrainingLogsFormProps {
   initialData?: any;
@@ -62,7 +62,7 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
 
   if (loading) {
     return (
-      <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
+      <div className={`${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
         <p className="text-xl text-gray-500">Loading</p>
       </div>
     );

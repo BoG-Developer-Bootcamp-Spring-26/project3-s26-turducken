@@ -5,14 +5,14 @@ import TitleBar from "@/components/TitleBar";
 import DashboardHeader from "@/components/DashboardHeader";
 import { heebo, oswald } from "..";
 import AnimalForm from "@/components/AnimalForm";
-import AnimalCard from "@/components/AnimalCard";
+import UserCard from "@/components/UserCard";
 import SideBar from "@/components/SideBar";
 
-export default function Animals() {
+export default function Users() {
     const router = useRouter();
     const context = useContext(UserContext);
+    const [users, setUsers] = useState<any[]>([]);
     const [showForm, setShowForm] = useState(false);
-    const [animals, setAnimals] = useState<any[]>([]); 
     const [loading, setLoading] = useState(true);
 
     if (!context) {
@@ -22,13 +22,12 @@ export default function Animals() {
 
     const fetchData = async() => {
         try {
-            const response = await fetch('/api/admin/animals');
-            const allAnimals = await response.json()
-            const userAnimals = allAnimals.filter((animal: any) => animal.owner === userId).sort((a: any, b: any) => b.hoursTrained - a.hoursTrained);
-            console.log("animals: ", userAnimals)
-            setAnimals(userAnimals);
+            const response = await fetch('/api/admin/users');
+            const allUsers = await response.json()
+            console.log("users: ", allUsers)
+            setUsers(allUsers);
         } catch (error) {
-                console.error("Failed to Fetch Animals: ", error);
+                console.error("Failed to Fetch Users: ", error);
         } finally {
             setLoading(false)
         }
@@ -48,7 +47,7 @@ export default function Animals() {
         return (
           <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
             <TitleBar />
-            <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
+            <DashboardHeader setShowForm={setShowForm} title="All users"/>
             <p className="text-xl text-gray-500">Loading</p>
           </div>
         );
@@ -56,7 +55,7 @@ export default function Animals() {
     
       const handleSave = async (data: any) => {
       try {
-        const response = await fetch("/api/animal", {
+        const response = await fetch("/api/user", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -75,7 +74,7 @@ export default function Animals() {
           alert(`Failed to save: ${errorData.message || 'Unknown error'}`);
         }
       } catch (error) {
-        console.error("Error saving animal:", error);
+        console.error("Error saving user:", error);
       }
   };
 
@@ -85,9 +84,9 @@ export default function Animals() {
         <div className="flex flex-row flex-1 overflow-hidden">
             <SideBar fullName="Long Lam" admin={true} />
             <main className="flex-1 flex flex-col">
-                <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
+                <DashboardHeader setShowForm={setShowForm} title="All users"/>
                 { showForm ? (
-                    <div className="p-8 overflow-y-auto">
+                    <div className="p-8">
                        <AnimalForm
                           onSave={handleSave}
                           onCancel={() => {
@@ -98,19 +97,16 @@ export default function Animals() {
                   ) : (
                     <div className="p-8 mx-auto w-full max-w-7xl overflow-y-auto">
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-                            {animals.length > 0 ? (
-                                animals.map((animal) => (
-                                  <AnimalCard
-                                    key={animal._id}
-                                    breed={animal.breed}
-                                    name={animal.name}
-                                    userName={animal.userName}
-                                    hoursTrained={animal.hoursTrained}
-                                    profilePicture={animal.profilePicture}
+                            {users.length > 0 ? (
+                                users.map((user) => (
+                                  <UserCard
+                                  fullName = {user.fullName}
+                                  email = {user.email}
+                                  admin = {user.admin}
                                   />
                                 ))
                               ) : (
-                                <p className="text-xl text-gray-500">No animals found</p>
+                                <p className="text-xl text-gray-500">No users found</p>
                               )}
                         </div>
                     </div>
