@@ -109,7 +109,7 @@ export default function SideBar() {
     }
 
     return (
-        <div className="flex flex-col bg-white w-56 border-r border-gray-300 pt-4 px-4">
+        <div className="flex flex-col bg-white w-65 border-r border-gray-300 pt-4 pl-4 pr-8">
             {/* Main Navigation */}
             <nav className="flex flex-col">
                 {NAV_ITEMS.map((item) => {
