@@ -100,6 +100,7 @@ export default function Users() {
                             {users.length > 0 ? (
                                 users.map((user) => (
                                   <UserCard
+                                  key={user._id}
                                   fullName = {user.fullName}
                                   email = {user.email}
                                   admin = {user.admin}
