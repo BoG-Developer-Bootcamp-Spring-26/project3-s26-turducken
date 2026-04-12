@@ -49,7 +49,7 @@ export default function Animals() {
           <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
             <TitleBar />
             <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
-            <p className="text-xl text-gray-500">Loading</p>
+            <p className="text-xl text-gray-500 px-2">Loading</p>
           </div>
         );
       }
@@ -110,7 +110,7 @@ export default function Animals() {
                                   />
                                 ))
                               ) : (
-                                <p className="text-xl text-gray-500">No animals found</p>
+                                <p className="text-xl text-gray-500 px-2">No animals found</p>
                               )}
                         </div>
                     </div>

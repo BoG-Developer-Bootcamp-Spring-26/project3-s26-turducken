@@ -50,7 +50,7 @@ export default function TrainingLogs() {
       <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
         <TitleBar />
         <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
-        <p className="text-xl text-gray-500">Loading</p>
+        <p className="text-xl text-gray-500 px-2">Loading</p>
       </div>
     );
   }
@@ -83,7 +83,7 @@ export default function TrainingLogs() {
   return (
     <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
       <TitleBar />
-      <div className="flex flex-row overflow-hidden">
+      <div className="flex flex-row flex-1 overflow-hidden">
         <SideBar />
         <main className="flex-1 flex flex-col bg-gray-50/10">
             <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
@@ -120,7 +120,7 @@ export default function TrainingLogs() {
                     />
                     ))
                 ) : (
-                    <p className="text-xl text-gray-500">No logs found</p>
+                    <p className="text-xl text-gray-500 px-2">No logs found</p>
                 )}
             </div>}
         </main>
