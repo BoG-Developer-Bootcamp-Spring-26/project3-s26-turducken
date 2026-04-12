@@ -48,10 +48,15 @@ export default function TrainingLogs() {
   if (loading) {
     return (
       <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
-        <TitleBar />
-        <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
-        <p className="text-xl text-gray-500 px-2">Loading</p>
-      </div>
+            <TitleBar />
+            <div className="flex flex-row flex-1 overflow-hidden">
+              <SideBar />
+              <div className="flex-1 flex flex-col">
+                <DashboardHeader setShowForm={setShowForm} title="Training logs"/>
+                <p className="text-xl text-gray-500 p-8">Loading...</p>
+              </div>
+            </div>
+          </div>
     );
   }
 

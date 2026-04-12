@@ -37,7 +37,7 @@ const NAV_ITEMS = [
 
 const ADMIN_ITEMS = [
     {
-        label: "All Training",
+        label: "All training",
         href: "/admin/all-training-logs",
         icon: {
             inactive: <Image src={inactAllTraining} alt="All Training Logs Icon" style={{ width: '15%', height: 'auto' }} />,
@@ -45,7 +45,7 @@ const ADMIN_ITEMS = [
         }
     },
     {
-        label: "All Animals",
+        label: "All animals",
         href: "/admin/all-animals",
         icon: {
             inactive: <Image src={inactAllAnimals} alt="All Animals Icon" style={{ width: '15%', height: 'auto' }} />,
@@ -53,7 +53,7 @@ const ADMIN_ITEMS = [
         }
     },
     {
-        label: "All Users",
+        label: "All users",
         href: "/admin/all-users",
         icon: {
             inactive: <Image src={inactAllUsers} alt="All Users Icon" style={{ width: '15%', height: 'auto' }} />,
@@ -109,7 +109,7 @@ export default function SideBar() {
     }
 
     return (
-        <div className="flex flex-col bg-white w-65 border-r border-gray-300 pt-4 pl-4 pr-8">
+        <div className="flex flex-col bg-white w-65 border-r border-gray-300 pt-4 px-4">
             {/* Main Navigation */}
             <nav className="flex flex-col">
                 {NAV_ITEMS.map((item) => {
@@ -118,10 +118,10 @@ export default function SideBar() {
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${active ? "bg-[#D21312]" : ""}`}
+                                className={`flex items-center w-50 gap-3 px-3 py-2.5 rounded-lg transition-colors ${active ? "bg-[#D21312]" : ""}`}
                             >
                                 {active ? item.icon.active : item.icon.inactive}
-                                <span className={active ? "text-white font-medium" : "text-[#565252] font-normal"}> 
+                                <span className={active ? "text-white font-semibold text-lg" : "text-[#565252] font-normal text-lg"}> 
                                     {item.label}
                                 </span>
                             </Link>
@@ -134,17 +134,17 @@ export default function SideBar() {
             {admin && (
                 <nav className="flex flex-col py-2">
                     <hr className="border-t-2 border-gray-300"/>
-                    <p className="px-3 font-medium text-[#565252] mt-3 mb-1">Admin Access</p>
+                    <p className="px-3 font-semibold text-lg text-[#565252] mt-3 mb-1">Admin access</p>
                     {ADMIN_ITEMS.map((item) => {
                             const active = pathname === item.href;
                             return (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${active ? "bg-[#D21312]" : ""}`}
+                                    className={`flex items-center w-50 gap-3 px-3 py-2.5 rounded-lg transition-colors ${active ? "bg-[#D21312]" : ""}`}
                                 >
                                     {active ? item.icon.active : item.icon.inactive}
-                                    <span className={active ? "text-white font-medium" : "text-[#565252] font-normal"}>
+                                    <span className={active ? "text-white font-semibold text-lg" : "text-[#565252] font-normal text-lg"}>
                                         {item.label}
                                     </span>
                                 </Link>
@@ -164,13 +164,13 @@ export default function SideBar() {
                     <div className="flex items-center gap-3">
                         {/* Avatar */}
                         <div>
-                            <div className="w-9 h-9 rounded-full bg-[#D21312] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                            <div className="w-9 h-9 rounded-full bg-[#D21312] flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
                                 {initials}
                             </div>
                         </div>
                         {/* User Info */}
                         <div className="flex flex-col">
-                            <p className="text-[#565252] font-bold text-sm">
+                            <p className="text-[#565252] font-bold text-med">
                                 {fullName}
                             </p>
                             <p className="text-[#565252] text-sm">
