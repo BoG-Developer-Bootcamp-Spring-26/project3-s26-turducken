@@ -22,14 +22,6 @@ export default function AnimalForm({ onSave, onCancel }: AnimalFormProps) {
     if (!context) {
         return <div>Error: UserContext not found. Ensure this page is wrapped in the Provider.</div>;
       }
-      const { userId } = context;
-
-      useEffect(() => {
-        if (!userId) {
-          router.push("/");
-          return;
-        }
-    }, [userId, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

@@ -62,7 +62,9 @@ export default function TrainingCard({
         <button onClick={handleEditLog} className='w-14'>
           <Image src="/images/trainingLogcardEditButton.png" alt="Edit Training Log" width={80} height={80}/>
         </button>
+        <div className='shrink-0'>
         <DeleteButton type='training' id={trainingLogId}/>
+        </div>
         </div>
       </div>
     </div>

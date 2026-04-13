@@ -20,10 +20,10 @@ export default function DeleteButton({ id, type, onSuccess }: DeleteButtonProps)
 
         setIsDeleting(true);
 
-        let payloadKey = "";
-        if (type === "user") payloadKey = "userId";
-        else if (type === "animal") payloadKey = "animalId";
-        else if (type === "training") payloadKey = "trainingLogId";
+        let key = "";
+        if (type === "user") key = "userId";
+        else if (type === "animal") key = "animalId";
+        else if (type === "training") key = "trainingLogId";
 
         try {
             const response = await fetch(`/api/${type}`, {
@@ -31,7 +31,7 @@ export default function DeleteButton({ id, type, onSuccess }: DeleteButtonProps)
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ [payloadKey]: id }),
+                body: JSON.stringify({ [key]: id }),
             });
 
             const data = await response.json();
@@ -57,7 +57,7 @@ export default function DeleteButton({ id, type, onSuccess }: DeleteButtonProps)
         <button
             onClick={handleDelete}
             disabled={isDeleting}
-            className="p-2 hover:cursor-pointer hover:scale-110 rounded-full transition-all disabled:opacity-50 flex items-center justify-center"
+            className="p-2 hover:cursor-pointer hover:scale-110 rounded-full transition-all disabled:opacity-50 flex items-center justify-center shrink-0"
             title={`Delete ${type}`}
         >
             {isDeleting ? (
@@ -66,8 +66,8 @@ export default function DeleteButton({ id, type, onSuccess }: DeleteButtonProps)
                 <Image 
                     src="/images/deleteIcon.png"
                     alt="Delete icon" 
-                    width={20} 
-                    height={20} 
+                    width={30} 
+                    height={30} 
                 />
             )}
         </button>

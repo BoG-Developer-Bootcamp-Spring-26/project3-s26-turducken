@@ -42,10 +42,6 @@ export default function TrainingLogs() {
   || log.description.toLowerCase().includes(query.toLowerCase())));
 
   useEffect(() => {
-    if (!userId) {
-      router.push("/");
-      return;
-    }
     fetchData();
   }, [userId, router]);
 

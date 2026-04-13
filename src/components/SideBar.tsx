@@ -94,10 +94,6 @@ export default function SideBar() {
         };
     
         useEffect(() => {
-            if (!userId) {
-            router.push("/");
-            return;
-            }
             fetchData();
         }, [userId, router]);
 
