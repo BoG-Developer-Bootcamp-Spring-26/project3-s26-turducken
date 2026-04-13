@@ -13,30 +13,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<TrainingLogApiData>,
 ) {
-    if (req.method === 'GET') {
-        try {
-            if (!req.query.trainingLogId) {
-                return res.status(400).json({
-                    message: "TrainingLog ID is required for retrieving a trainingLog!"
-                });
-            }
-            await connectDb();
-            const trainingLog = await getTrainingLog(req.query.trainingLogId as string);
-            if (!trainingLog) {
-                return res.status(400).json({
-                    message: "No trainingLog found with the provided ID!"
-                });
-            }
-            res.status(200).json({
-                trainingLogData: trainingLog,
-                message: "TrainingLog successfully retrieved!",
-            });
-        } catch (e) {
-            res.status(500).json({
-                message: "There was an error when retrieving your trainingLog from the database."
-            });
-        }
-    } else if (req.method === 'POST') {
+    if (req.method === 'POST') {
         try {
             if (!req.body.user || !req.body.animal || !req.body.title || !req.body.date || !req.body.description || !req.body.hours) {
                 return res.status(400).json({

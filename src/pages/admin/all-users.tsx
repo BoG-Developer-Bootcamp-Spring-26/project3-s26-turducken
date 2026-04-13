@@ -47,8 +47,13 @@ export default function Users() {
         return (
           <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
             <TitleBar />
-            <DashboardHeader setShowForm={setShowForm} title="All users"/>
-            <p className="text-xl text-gray-500">Loading</p>
+            <div className="flex flex-row flex-1 overflow-hidden">
+              <SideBar />
+              <div className="flex-1 flex flex-col">
+                <DashboardHeader setShowForm={setShowForm} title="All users"/>
+                <p className="text-xl text-gray-500 p-8">Loading...</p>
+              </div>
+            </div>
           </div>
         );
       }
@@ -82,7 +87,7 @@ export default function Users() {
       <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
         <TitleBar />
         <div className="flex flex-row flex-1 overflow-hidden">
-            <SideBar fullName="Long Lam" admin={true} />
+            <SideBar />
             <main className="flex-1 flex flex-col">
                 <DashboardHeader setShowForm={setShowForm} title="All users"/>
                 { showForm ? (
@@ -100,6 +105,7 @@ export default function Users() {
                             {users.length > 0 ? (
                                 users.map((user) => (
                                   <UserCard
+                                  key={user._id}
                                   fullName = {user.fullName}
                                   email = {user.email}
                                   admin = {user.admin}

@@ -17,24 +17,29 @@ export default async function handler(
     if (req.method === 'GET') {
         try {
             if (!req.query.userId) {
-                return res.status(400).json({
-                    message: "User ID is required for retrieving a user!"
+                return res.status(500).json({
+                    message: "Getting a user requires a userId!"
                 });
             }
             await connectDb();
             const user = await getUser(req.query.userId as string);
             if (!user) {
-                return res.status(400).json({
-                    message: "No user found with the provided ID!"
+                res.status(500).json({
+                    message: "User not found!"
                 });
+            } else {
+                res.status(200).json({
+                    userData: {
+                        fullName: user.fullName,
+                        email: user.email,
+                        admin: user.admin,
+                    },
+                    message: "User successfully retrieved!"
+                })
             }
-            res.status(200).json({
-                userData: user.select("-password"),
-                message: "User successfully retrieved!",
-            });
         } catch (e) {
             res.status(500).json({
-                message: "There was an error when retrieving your user from the database."
+                message: "There was an error when getting your user from the database."
             });
         }
     } else if (req.method === 'POST') {
