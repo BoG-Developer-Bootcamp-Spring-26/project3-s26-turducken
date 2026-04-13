@@ -34,10 +34,6 @@ export default function Users() {
     };
 
     useEffect(() => {
-        if (!userId) {
-            router.push("/")
-            return;
-        }
         fetchData()
     }, [userId, router]);
 

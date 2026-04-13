@@ -35,10 +35,6 @@ export default function TrainingLogs() {
   };
 
   useEffect(() => {
-    if (!userId) {
-      router.push("/");
-      return;
-    }
     fetchData();
   }, [userId, router]);
 
@@ -89,7 +85,7 @@ export default function TrainingLogs() {
       <TitleBar />
       <div className="flex flex-row overflow-hidden">
         <SideBar />
-        <main className="flex-1 flex flex-col bg-gray-50/10">
+        <main className="flex-1 flex flex-col bg-gray-50/10 h-screen">
             <DashboardHeader setShowForm={setShowForm} title="All training logs"/>
             { showForm ? (
                 <div className="flex-1 overflow-y-auto">

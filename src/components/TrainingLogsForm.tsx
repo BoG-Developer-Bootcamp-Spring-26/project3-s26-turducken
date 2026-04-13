@@ -41,10 +41,6 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
   }, [initialData, editingLog]);
 
   useEffect(() => {
-    if (!userId) {
-      router.push("/");
-      return;
-    }
     const fetchData = async () => {
       try {
         const response = await fetch("/api/admin/animals");
