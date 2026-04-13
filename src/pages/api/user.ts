@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { UserData } from "@/types/types";
-import { createUser, getUser } from "../../../server/mongodb/actions/user";
+import { createUser, deleteUser, getUser } from "../../../server/mongodb/actions/user";
 import connectDb from "../../../server/mongodb/index";
 import argon2 from "argon2";
+import { deleteAnimalsByUser } from "../../../server/mongodb/actions/animal";
+import { deleteTrainingLogsByUser } from "../../../server/mongodb/actions/trainingLog";
 
 interface UserApiData {
     userId?: string;
@@ -68,6 +70,27 @@ export default async function handler(
             res.status(200).json({
                 userData: user,
                 message: "User successfully created!",
+            });
+        } catch (e) {
+            res.status(500).json({
+                message: `There was an error when adding your user to the database. ${e}`
+            });
+        }
+    }
+    else if (req.method === 'DELETE') {
+        try {
+            if (!req.body.userId) {
+                return res.status(400).json({
+                    message: "Deleting a user requires a userId!"
+                });
+            }
+            await connectDb();
+            await deleteUser(req.body.userId);
+            await deleteAnimalsByUser(req.body.userId);
+            await deleteTrainingLogsByUser(req.body.userId);
+
+            res.status(200).json({
+                message: "Successfully deleted the user, along with all their animals and training logs!",
             });
         } catch (e) {
             res.status(500).json({
