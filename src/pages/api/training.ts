@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { TrainingLogData } from "@/types/types";
-import { createTrainingLog, getTrainingLog, updateTrainingLog } from "../../../server/mongodb/actions/trainingLog";
+import { createTrainingLog, deleteTrainingLog, getTrainingLog, updateTrainingLog } from "../../../server/mongodb/actions/trainingLog";
 import { getAnimal, updateAnimal } from "../../../server/mongodb/actions/animal";
 import connectDb from "../../../server/mongodb/index";
 
@@ -81,6 +81,36 @@ export default async function handler(
         } catch (e) {
             res.status(500).json({
                 message: "There was an error when updating your trainingLog to the database."
+            });
+        }
+    }
+    else if (req.method === 'DELETE') {
+        try {
+            if (!req.body.trainingLogId) {
+                return res.status(400).json({
+                    message: "Deleting a training log requires a trainingLogId!"
+                })
+            }
+            await connectDb();
+            const logToDelete = await getTrainingLog(req.body.trainingLogId);
+            if (!logToDelete) {
+                return res.status(400).json({
+                    message: "TrainingLog not found!"
+                });
+            }
+            await deleteTrainingLog(req.body.trainingLogId);
+            const animal = await getAnimal(logToDelete.animal);
+            if (animal) {
+                const newHours = Math.max(0, animal.hoursTrained - logToDelete.hours);
+                await updateAnimal(animal._id.toString(), newHours);
+            }
+
+            res.status(200).json({
+                message: "Succesfully deleted trainingLog and updated animal hours!"
+            })
+        } catch (e) {
+            res.status(500).json({
+                message: "There was an error when deleting your trainingLog from database."
             });
         }
     } else {

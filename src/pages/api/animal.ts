@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { AnimalData } from "@/types/types";
-import { createAnimal, getAnimal, updateAnimal } from "../../../server/mongodb/actions/animal";
+import { createAnimal, deleteAnimal, getAnimal, updateAnimal } from "../../../server/mongodb/actions/animal";
 import connectDb from "../../../server/mongodb/index";
+import { deleteTrainingLogsByAnimal } from "../../../server/mongodb/actions/trainingLog";
 
 interface AnimalApiData {
     animalData?: Partial<AnimalData>;
@@ -61,6 +62,25 @@ export default async function handler(
         } catch (e) {
             res.status(500).json({
                 message: "There was an error when updating your animal to the database."
+            });
+        }
+    } 
+    else if (req.method === 'DELETE') {
+        try {
+            if (!req.body.animalId) {
+                res.status(400).json({
+                    message: "Cannot delete an animal without an animalId!"
+                })
+            }
+            await connectDb();
+            await deleteAnimal(req.body.animalId);
+            await deleteTrainingLogsByAnimal(req.body.animalId);
+            res.status(200).json({
+                message: "Successfully deleted the animal and all associated training logs!"
+            })
+        } catch (e) {
+            res.status(500).json({
+                message: "There was an error when deleting your animal from the database."
             });
         }
     } else {
