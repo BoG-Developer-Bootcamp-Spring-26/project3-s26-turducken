@@ -91,7 +91,7 @@ export default function TrainingLogs() {
       <SearchBar query={query} setQuery={setQuery} placeholder="Search all training logs..." />
       <div className="flex flex-row flex-1 overflow-hidden">
         <SideBar />
-        <main className="flex-1 flex flex-col bg-gray-50/10 h-screen">
+        <main className="flex-1 flex flex-col bg-gray-50/10">
             <DashboardHeader setShowForm={setShowForm} title="All training logs"/>
             { showForm ? (
                 <div className="flex-1 overflow-y-auto">
