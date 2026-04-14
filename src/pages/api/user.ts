@@ -5,6 +5,8 @@ import connectDb from "../../../server/mongodb/index";
 import argon2 from "argon2";
 import { deleteAnimalsByUser } from "../../../server/mongodb/actions/animal";
 import { deleteTrainingLogsByUser } from "../../../server/mongodb/actions/trainingLog";
+import jwt from "jsonwebtoken";
+import { serialize } from "cookie";
 
 interface UserApiData {
     userId?: string;
@@ -67,6 +69,25 @@ export default async function handler(
             } as UserData;
             await connectDb();
             const user = await createUser(userData);
+            const secret = process.env.JWT_SECRET;
+            if (!secret) {
+                throw new Error("JWT_SECRET is missing in environment variables!");
+            }
+    
+            const token = jwt.sign({ userId: user._id.toString() }, secret, {
+                expiresIn: "7d", // Token lasts for 7 days
+            });
+    
+            const cookie = serialize("auth-token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "strict",
+                maxAge: 60 * 60 * 24 * 7, // 7 days in seconds
+                path: "/",
+            });
+    
+            res.setHeader("Set-Cookie", cookie);     
+            
             res.status(200).json({
                 userData: user,
                 message: "User successfully created!",
