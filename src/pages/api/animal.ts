@@ -15,7 +15,7 @@ export default async function handler(
 ) {
     if (req.method === 'POST') {
         try {
-            if (!req.body.name || !req.body.breed || !req.body.owner || !req.body.hoursTrained || !req.body.profilePicture) {
+            if (!req.body.name || !req.body.breed || !req.body.owner || typeof req.body.hoursTrained !== 'number' || !req.body.profilePicture) {
                 return res.status(400).json({
                     message: "Name, breed, owner, hours trained, and profile picture are required for creating a animal!"
                 });
@@ -40,7 +40,7 @@ export default async function handler(
         }
     } else if (req.method === 'PATCH') {
         try {
-            if (!req.body.hoursTrained) {
+            if (typeof req.body.hoursTrained !== 'number') {
                 return res.status(400).json({
                     message: "Updating a animal requires the hours trained!"
                 });
