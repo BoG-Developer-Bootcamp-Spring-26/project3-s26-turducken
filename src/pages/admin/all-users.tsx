@@ -16,22 +16,40 @@ export default function Users() {
     const [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState("");
+    const [lastId, setLastId] = useState<string | null>(null);
+    const [hasNextPage, setHasNextPage] = useState(true);
+    const [isFetchingMore, setIsFetchingMore] = useState(false);
 
     if (!context) {
         return <div>Error: UserContext not found.</div>;
     }
     const { userId } = context;
 
-    const fetchData = async() => {
+    const fetchData = async(isLoadMore = false) => {
         try {
-            const response = await fetch('/api/admin/users');
-            const allUsers = await response.json()
-            console.log("users: ", allUsers)
-            setUsers(allUsers);
+            let url = '/api/admin/users?limit=15';
+            if (isLoadMore && lastId) {
+              url += `&lastId=${lastId}`;
+            }
+            const response = await fetch(url);
+            const newUsers = await response.json()
+            console.log("users: ", newUsers)
+            if (newUsers.length > 0) {
+              const newLastId = newUsers[newUsers.length - 1]._id;
+              setLastId(newLastId);
+  
+              setUsers(prev => isLoadMore ? [...prev, ...newUsers] : newUsers);
+              if (newUsers.length < 15) {
+                setHasNextPage(false);
+              }
+          } else {
+              setHasNextPage(false);
+          }
         } catch (error) {
                 console.error("Failed to Fetch Users: ", error);
         } finally {
-            setLoading(false)
+            setLoading(false);
+            setIsFetchingMore(false);
         }
     };
 
@@ -69,21 +87,35 @@ export default function Users() {
               <DashboardHeader setShowForm={setShowForm} title="All users" isOpen={isOpen} setIsOpen={setIsOpen}/>
               <div className="p-8 mx-auto w-full overflow-y-auto">
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-                    {filteredUsers.length > 0 ? (
-                        filteredUsers.map((user) => (
-                          <UserCard
-                          key={user._id}
-                          fullName = {user.fullName}
-                          email = {user.email}
-                          admin = {user.admin}
-                          cardUserId = {user._id}
-                          />
-                        ))
-                      ) : (
-                        <p className="text-xl text-gray-500">No users found</p>
-                      )}
+                  {filteredUsers.length > 0 ? (
+                      filteredUsers.map((user) => (
+                        <UserCard
+                        key={user._id}
+                        fullName = {user.fullName}
+                        email = {user.email}
+                        admin = {user.admin}
+                        cardUserId = {user._id}
+                        />
+                      ))
+                    ) : (
+                      <p className="text-xl text-gray-500">No users found</p>
+                    )}
                 </div>
-              </div>
+                {hasNextPage && !showForm && (
+                  <div className="flex justify-center mt-8 pb-12">
+                      <button 
+                          onClick={() => {
+                              setIsFetchingMore(true);
+                              fetchData(true);
+                          }}
+                          disabled={isFetchingMore}
+                          className="text-black px-6 rounded hover:text-gray-600 disabled:text-gray-600"
+                      >
+                          {isFetchingMore ? "Loading..." : "Load More Users"}
+                      </button>
+                  </div>
+                )}
+                </div>
             </main>
         </div>
       </div>

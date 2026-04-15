@@ -6,7 +6,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     try {
       await connectDb();
-      const users = await User.find().select("-password");
+
+      const { lastId, limit = "15" } = req.query;
+      const pageSize = parseInt(limit as string);
+      const query = lastId ? { _id: { $gt: lastId } } : {};
+      const users = await User.find(query)
+        .select("-password")
+        .sort({ _id: 1 }) 
+        .limit(pageSize)
+        .lean();
       
       return res.status(200).json(users);
     } catch (e) {
