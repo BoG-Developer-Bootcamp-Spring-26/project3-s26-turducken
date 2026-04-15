@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { UserContext } from "@/context/UserContext";
 import { useState, useContext, useEffect } from "react";
 import TitleBar from "@/components/TitleBar";
+import SearchBar from "@/components/SearchBar";
 import DashboardHeader from "@/components/DashboardHeader";
 import { heebo, oswald } from "..";
 import AnimalForm from "@/components/AnimalForm";
@@ -14,6 +15,7 @@ export default function Animals() {
     const [showForm, setShowForm] = useState(false);
     const [animals, setAnimals] = useState<any[]>([]); 
     const [loading, setLoading] = useState(true);
+    const [query, setQuery] = useState("");
 
     if (!context) {
         return <div>Error: UserContext not found.</div>;
@@ -33,6 +35,10 @@ export default function Animals() {
             setLoading(false)
         }
     };
+
+    // filters if animal name or breed is in search bar query
+    const filteredAnimals = animals.filter((animal) => (animal.name.toLowerCase().includes(query.toLowerCase())
+    || animal.breed.toLowerCase().includes(query.toLowerCase())));
 
     useEffect(() => {
         fetchData()
@@ -82,7 +88,7 @@ export default function Animals() {
 
  return (
       <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
-        <TitleBar />
+        <SearchBar query={query} setQuery={setQuery} placeholder="Search animals..." />
         <div className="flex flex-row flex-1 overflow-hidden">
             <SideBar />
             <main className="flex-1 flex flex-col">
@@ -97,10 +103,10 @@ export default function Animals() {
                        />
                     </div>
                   ) : (
-                    <div className="p-8 mx-auto w-full max-w-7xl overflow-y-auto">
+                    <div className="p-8 mx-auto w-full overflow-y-auto">
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-                            {animals.length > 0 ? (
-                                animals.map((animal) => (
+                            {filteredAnimals.length > 0 ? (
+                                filteredAnimals.map((animal) => (
                                   <AnimalCard
                                     key={animal._id}
                                     breed={animal.breed}

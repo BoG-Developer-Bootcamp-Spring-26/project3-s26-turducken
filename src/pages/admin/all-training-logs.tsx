@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from "react";
 import { heebo, oswald } from "..";
 import TitleBar from "@/components/TitleBar";
+import SearchBar from "@/components/SearchBar";
 import TrainingCard from "@/components/TrainingCard";
 import DashboardHeader from "@/components/DashboardHeader";
 import TrainingForm from "@/components/TrainingLogsForm";
@@ -16,6 +17,7 @@ export default function TrainingLogs() {
   const [loading, setLoading] = useState(true);
   const [initialData, setInitialData] = useState<any>(null);
   const [editingLog, setEditingLog] = useState(false);
+  const [query, setQuery] = useState("");
 
   if (!context) {
     return <div>Error: UserContext not found.</div>;
@@ -33,6 +35,10 @@ export default function TrainingLogs() {
       setLoading(false);
     }
   };
+
+  // filters if training log title or description is in search bar query
+  const filteredLogs = logs.filter((log) => (log.title.toLowerCase().includes(query.toLowerCase())
+  || log.description.toLowerCase().includes(query.toLowerCase())));
 
   useEffect(() => {
     fetchData();
@@ -82,8 +88,8 @@ export default function TrainingLogs() {
 
   return (
     <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
-      <TitleBar />
-      <div className="flex flex-row overflow-hidden">
+      <SearchBar query={query} setQuery={setQuery} placeholder="Search all training logs..." />
+      <div className="flex flex-row flex-1 overflow-hidden">
         <SideBar />
         <main className="flex-1 flex flex-col bg-gray-50/10">
             <DashboardHeader setShowForm={setShowForm} title="All training logs"/>
@@ -101,8 +107,8 @@ export default function TrainingLogs() {
                 </div>
                 ) :
             <div className="w-full mx-auto p-8 flex flex-col gap-4 overflow-y-auto">
-                {logs.length > 0 ? (
-                    logs.map((log) => (
+                {filteredLogs.length > 0 ? (
+                    filteredLogs.map((log) => (
                     <TrainingCard
                     key={log._id}
                     trainingLogId={log._id}
