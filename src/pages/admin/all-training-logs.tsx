@@ -89,7 +89,7 @@ export default function TrainingLogs() {
   return (
     <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
       <SearchBar query={query} setQuery={setQuery} placeholder="Search all training logs..." />
-      <div className="flex flex-row overflow-hidden">
+      <div className="flex flex-row flex-1 overflow-hidden">
         <SideBar />
         <main className="flex-1 flex flex-col bg-gray-50/10">
             <DashboardHeader setShowForm={setShowForm} title="All training logs"/>
