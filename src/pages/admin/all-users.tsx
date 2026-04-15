@@ -106,7 +106,7 @@ export default function Users() {
                        />
                     </div>
                   ) : (
-                    <div className="p-8 mx-auto w-full max-w-7xl overflow-y-auto">
+                    <div className="p-8 mx-auto w-full overflow-y-auto">
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
                             {filteredUsers.length > 0 ? (
                                 filteredUsers.map((user) => (
