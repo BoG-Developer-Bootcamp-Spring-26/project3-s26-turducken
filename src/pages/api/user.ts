@@ -1,8 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { UserData } from "@/types/types";
-import { createUser, getUser } from "../../../server/mongodb/actions/user";
+import { createUser, deleteUser, getUser } from "../../../server/mongodb/actions/user";
 import connectDb from "../../../server/mongodb/index";
 import argon2 from "argon2";
+import { deleteAnimalsByUser } from "../../../server/mongodb/actions/animal";
+import { deleteTrainingLogsByUser } from "../../../server/mongodb/actions/trainingLog";
+import jwt from "jsonwebtoken";
+import { serialize } from "cookie";
 
 interface UserApiData {
     userId?: string;
@@ -65,9 +69,49 @@ export default async function handler(
             } as UserData;
             await connectDb();
             const user = await createUser(userData);
+            const secret = process.env.JWT_SECRET;
+            if (!secret) {
+                throw new Error("JWT_SECRET is missing in environment variables!");
+            }
+    
+            const token = jwt.sign({ userId: user._id.toString() }, secret, {
+                expiresIn: "7d", // Token lasts for 7 days
+            });
+    
+            const cookie = serialize("auth-token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "strict",
+                maxAge: 60 * 60 * 24 * 7, // 7 days in seconds
+                path: "/",
+            });
+    
+            res.setHeader("Set-Cookie", cookie);     
+            
             res.status(200).json({
                 userData: user,
                 message: "User successfully created!",
+            });
+        } catch (e) {
+            res.status(500).json({
+                message: `There was an error when adding your user to the database. ${e}`
+            });
+        }
+    }
+    else if (req.method === 'DELETE') {
+        try {
+            if (!req.body.userId) {
+                return res.status(400).json({
+                    message: "Deleting a user requires a userId!"
+                });
+            }
+            await connectDb();
+            await deleteUser(req.body.userId);
+            await deleteAnimalsByUser(req.body.userId);
+            await deleteTrainingLogsByUser(req.body.userId);
+
+            res.status(200).json({
+                message: "Successfully deleted the user, along with all their animals and training logs!",
             });
         } catch (e) {
             res.status(500).json({

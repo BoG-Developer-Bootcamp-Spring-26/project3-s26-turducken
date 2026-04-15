@@ -36,10 +36,6 @@ export default function TrainingLogs() {
   };
 
   useEffect(() => {
-    if (!userId) {
-      router.push("/");
-      return;
-    }
     fetchData();
   }, [userId, router]);
 

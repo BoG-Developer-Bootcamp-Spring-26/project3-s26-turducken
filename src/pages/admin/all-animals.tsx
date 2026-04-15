@@ -34,10 +34,6 @@ export default function Animals() {
     };
 
     useEffect(() => {
-        if (!userId) {
-            router.push("/")
-            return;
-        }
         fetchData()
     }, [userId, router]);
 
@@ -111,6 +107,7 @@ export default function Animals() {
                                     userName={animal.userName}
                                     hoursTrained={animal.hoursTrained}
                                     profilePicture={animal.profilePicture}
+                                    animalId={animal._id}
                                   />
                                 ))
                               ) : (

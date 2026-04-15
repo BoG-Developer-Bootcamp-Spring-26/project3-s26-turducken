@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import DeleteButton from './DeleteButton';
 
 interface TrainingCardProps {
     trainingLogId: string;
@@ -57,9 +58,14 @@ export default function TrainingCard({
             {description}
           </p>
         </div>
+        <div className='flex flex-col justify-between'>
         <button onClick={handleEditLog} className='w-14'>
           <Image src="/images/trainingLogcardEditButton.png" alt="Edit Training Log" width={80} height={80}/>
         </button>
+        <div className='shrink-0'>
+        <DeleteButton type='training' id={trainingLogId}/>
+        </div>
+        </div>
       </div>
     </div>
   );

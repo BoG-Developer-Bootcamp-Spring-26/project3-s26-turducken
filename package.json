@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "argon2": "^0.44.0",
+    "cookie": "^1.1.1",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.3.3",
     "next": "^16.2.1",
     "react": "19.2.0",
@@ -17,6 +19,8 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/postcss": "^4.2.2",
+    "@types/cookie": "^0.6.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
