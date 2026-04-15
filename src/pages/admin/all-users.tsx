@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { UserContext } from "@/context/UserContext";
 import { useState, useContext, useEffect } from "react";
 import TitleBar from "@/components/TitleBar";
+import SearchBar from "@/components/SearchBar";
 import DashboardHeader from "@/components/DashboardHeader";
 import { heebo, oswald } from "..";
 import AnimalForm from "@/components/AnimalForm";
@@ -14,6 +15,7 @@ export default function Users() {
     const [users, setUsers] = useState<any[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [query, setQuery] = useState("");
 
     if (!context) {
         return <div>Error: UserContext not found.</div>;
@@ -32,6 +34,10 @@ export default function Users() {
             setLoading(false)
         }
     };
+
+    // filters if user name or email is in search bar query
+  const filteredUsers = users.filter((user) => (user.fullName.toLowerCase().includes(query.toLowerCase())
+  || user.email.toLowerCase().includes(query.toLowerCase())));
 
     useEffect(() => {
         fetchData()
@@ -81,7 +87,7 @@ export default function Users() {
 
  return (
       <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
-        <TitleBar />
+        <SearchBar query={query} setQuery={setQuery} placeholder="Search all users..." />
         <div className="flex flex-row flex-1 overflow-hidden">
             <SideBar />
             <main className="flex-1 flex flex-col">
@@ -98,8 +104,8 @@ export default function Users() {
                   ) : (
                     <div className="p-8 mx-auto w-full max-w-7xl overflow-y-auto">
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-                            {users.length > 0 ? (
-                                users.map((user) => (
+                            {filteredUsers.length > 0 ? (
+                                filteredUsers.map((user) => (
                                   <UserCard
                                   key={user._id}
                                   fullName = {user.fullName}
