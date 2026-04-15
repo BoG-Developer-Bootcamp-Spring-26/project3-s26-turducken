@@ -16,7 +16,7 @@ export default function Animals() {
     const [animals, setAnimals] = useState<any[]>([]); 
     const [loading, setLoading] = useState(true);
     const [query, setQuery] = useState("");
-
+    const [isOpen, setIsOpen] = useState(false);
     if (!context) {
         return <div>Error: UserContext not found.</div>;
     }
@@ -41,7 +41,7 @@ export default function Animals() {
     || animal.breed.toLowerCase().includes(query.toLowerCase())));
 
     useEffect(() => {
-        fetchData()
+        fetchData();
     }, [userId, router]);
 
     if (!userId) return null;
@@ -51,9 +51,9 @@ export default function Animals() {
           <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
             <TitleBar />
             <div className="flex flex-row flex-1 overflow-hidden">
-              <SideBar />
+              <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
               <div className="flex-1 flex flex-col">
-                <DashboardHeader setShowForm={setShowForm} title="Animals"/>
+                <DashboardHeader setShowForm={setShowForm} title="Animals" isOpen={isOpen} setIsOpen={setIsOpen}/>
                 <p className="text-xl text-gray-500 p-8">Loading...</p>
               </div>
             </div>
@@ -90,9 +90,9 @@ export default function Animals() {
       <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
         <SearchBar query={query} setQuery={setQuery} placeholder="Search animals..." />
         <div className="flex flex-row flex-1 overflow-hidden">
-            <SideBar />
+            <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
             <main className="flex-1 flex flex-col">
-                <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
+                <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals" isOpen={isOpen} setIsOpen={setIsOpen}/>
                 { showForm ? (
                     <div className="p-8 overflow-y-auto">
                        <AnimalForm
