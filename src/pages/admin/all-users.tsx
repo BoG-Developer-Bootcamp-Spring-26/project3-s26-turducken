@@ -105,7 +105,7 @@ export default function Users() {
                                   fullName = {user.fullName}
                                   email = {user.email}
                                   admin = {user.admin}
-                                  userId = {user._id}
+                                  cardUserId = {user._id}
                                   />
                                 ))
                               ) : (
