@@ -5,7 +5,6 @@ import TitleBar from "@/components/TitleBar";
 import SearchBar from "@/components/SearchBar";
 import DashboardHeader from "@/components/DashboardHeader";
 import { heebo, oswald } from "..";
-import AnimalForm from "@/components/AnimalForm";
 import AnimalCard from "@/components/AnimalCard";
 import SideBar from "@/components/SideBar";
 
@@ -61,31 +60,6 @@ export default function Animals() {
         );
       }
     
-      const handleSave = async (data: any) => {
-      try {
-        const response = await fetch("/api/animal", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: data.name,
-            breed: data.breed,
-            owner: userId,
-            hoursTrained: Number(data.hoursTrained),
-            profilePicture: data.profilePicture
-          }),
-        });
-        if (response.ok) {
-          await fetchData();
-          setShowForm(false);
-        } else {
-          const errorData = await response.json();
-          alert(`Failed to save: ${errorData.message || 'Unknown error'}`);
-        }
-      } catch (error) {
-        console.error("Error saving animal:", error);
-      }
-  };
-
  return (
       <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
         <SearchBar query={query} setQuery={setQuery} placeholder="Search all animals..." />
@@ -93,36 +67,25 @@ export default function Animals() {
             <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
             <main className="flex-1 flex flex-col">
                 <DashboardHeader setShowForm={setShowForm} title="All animals" isOpen={isOpen} setIsOpen={setIsOpen}/>
-                { showForm ? (
-                    <div className="p-8">
-                       <AnimalForm
-                          onSave={handleSave}
-                          onCancel={() => {
-                            setShowForm(false)
-                          }}
-                       />
+                <div className="p-8 mx-auto w-full overflow-y-auto">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
+                        {filteredAnimals.length > 0 ? (
+                            filteredAnimals.map((animal) => (
+                              <AnimalCard
+                                key={animal._id}
+                                breed={animal.breed}
+                                name={animal.name}
+                                userName={animal.userName}
+                                hoursTrained={animal.hoursTrained}
+                                profilePicture={animal.profilePicture}
+                                animalId={animal._id}
+                              />
+                            ))
+                          ) : (
+                            <p className="text-xl text-gray-500">No animals found</p>
+                          )}
                     </div>
-                  ) : (
-                    <div className="p-8 mx-auto w-full overflow-y-auto">
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-                            {filteredAnimals.length > 0 ? (
-                                filteredAnimals.map((animal) => (
-                                  <AnimalCard
-                                    key={animal._id}
-                                    breed={animal.breed}
-                                    name={animal.name}
-                                    userName={animal.userName}
-                                    hoursTrained={animal.hoursTrained}
-                                    profilePicture={animal.profilePicture}
-                                    animalId={animal._id}
-                                  />
-                                ))
-                              ) : (
-                                <p className="text-xl text-gray-500">No animals found</p>
-                              )}
-                        </div>
-                    </div>
-                  )}
+                </div>
             </main>
         </div>
       </div>

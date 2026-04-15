@@ -5,7 +5,6 @@ import TitleBar from "@/components/TitleBar";
 import SearchBar from "@/components/SearchBar";
 import DashboardHeader from "@/components/DashboardHeader";
 import { heebo, oswald } from "..";
-import AnimalForm from "@/components/AnimalForm";
 import UserCard from "@/components/UserCard";
 import SideBar from "@/components/SideBar";
 
@@ -60,31 +59,6 @@ export default function Users() {
           </div>
         );
       }
-    
-      const handleSave = async (data: any) => {
-      try {
-        const response = await fetch("/api/user", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: data.name,
-            breed: data.breed,
-            owner: userId,
-            hoursTrained: Number(data.hoursTrained),
-            profilePicture: data.profilePicture
-          }),
-        });
-        if (response.ok) {
-          await fetchData();
-          setShowForm(false);
-        } else {
-          const errorData = await response.json();
-          alert(`Failed to save: ${errorData.message || 'Unknown error'}`);
-        }
-      } catch (error) {
-        console.error("Error saving user:", error);
-      }
-  };
 
  return (
       <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
@@ -92,35 +66,24 @@ export default function Users() {
         <div className="flex flex-row flex-1 overflow-hidden">
             <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
             <main className="flex-1 flex flex-col">
-                <DashboardHeader setShowForm={setShowForm} title="All users" isOpen={isOpen} setIsOpen={setIsOpen}/>
-                { showForm ? (
-                    <div className="p-8">
-                       <AnimalForm
-                          onSave={handleSave}
-                          onCancel={() => {
-                            setShowForm(false)
-                          }}
-                       />
-                    </div>
-                  ) : (
-                    <div className="p-8 mx-auto w-full overflow-y-auto">
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-                            {filteredUsers.length > 0 ? (
-                                filteredUsers.map((user) => (
-                                  <UserCard
-                                  key={user._id}
-                                  fullName = {user.fullName}
-                                  email = {user.email}
-                                  admin = {user.admin}
-                                  cardUserId = {user._id}
-                                  />
-                                ))
-                              ) : (
-                                <p className="text-xl text-gray-500">No users found</p>
-                              )}
-                        </div>
-                    </div>
-                  )}
+              <DashboardHeader setShowForm={setShowForm} title="All users" isOpen={isOpen} setIsOpen={setIsOpen}/>
+              <div className="p-8 mx-auto w-full overflow-y-auto">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
+                    {filteredUsers.length > 0 ? (
+                        filteredUsers.map((user) => (
+                          <UserCard
+                          key={user._id}
+                          fullName = {user.fullName}
+                          email = {user.email}
+                          admin = {user.admin}
+                          cardUserId = {user._id}
+                          />
+                        ))
+                      ) : (
+                        <p className="text-xl text-gray-500">No users found</p>
+                      )}
+                </div>
+              </div>
             </main>
         </div>
       </div>
