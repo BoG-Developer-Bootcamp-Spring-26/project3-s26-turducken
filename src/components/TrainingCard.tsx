@@ -59,7 +59,7 @@ export default function TrainingCard({
           </p>
         </div>
         <div className='flex flex-col justify-between'>
-        <button onClick={handleEditLog} className='w-14'>
+        <button onClick={handleEditLog} className='w-14 hover:cursor-pointer'>
           <Image src="/images/trainingLogcardEditButton.png" alt="Edit Training Log" width={80} height={80}/>
         </button>
         <div className='shrink-0'>
