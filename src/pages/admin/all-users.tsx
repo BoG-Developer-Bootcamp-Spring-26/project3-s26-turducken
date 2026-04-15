@@ -40,10 +40,6 @@ export default function Users() {
   || user.email.toLowerCase().includes(query.toLowerCase())));
 
     useEffect(() => {
-        if (!userId) {
-            router.push("/")
-            return;
-        }
         fetchData()
     }, [userId, router]);
 
@@ -115,6 +111,7 @@ export default function Users() {
                                   fullName = {user.fullName}
                                   email = {user.email}
                                   admin = {user.admin}
+                                  cardUserId = {user._id}
                                   />
                                 ))
                               ) : (

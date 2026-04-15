@@ -16,3 +16,15 @@ export async function updateTrainingLog(trainingLogId: string, newData: Training
     const updatedTrainingLog = await trainingLog.findByIdAndUpdate(trainingLogId, newData);
     return updatedTrainingLog;
 }
+
+export async function deleteTrainingLog(trainingLogId: string) {
+    await trainingLog.findByIdAndDelete(trainingLogId);
+}
+
+export async function deleteTrainingLogsByAnimal(animalId: string) {
+    await trainingLog.deleteMany({ animal: animalId });
+}
+
+export async function deleteTrainingLogsByUser(userId: string) {
+    await trainingLog.deleteMany({ user: userId });
+}

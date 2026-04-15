@@ -1,13 +1,16 @@
+import DeleteButton from "./DeleteButton";
+
 interface AnimalCardProps {
     breed: string;
     name: string;
     hoursTrained: number;
     profilePicture: string;
     userName: string;
+    animalId: string;
 }
 
 export default function AnimalCard({
-    breed, name, hoursTrained, profilePicture, userName
+    breed, name, hoursTrained, profilePicture, userName, animalId
 } : AnimalCardProps) {
     return (
         <div className="w-full mx-auto bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-xl">
@@ -28,6 +31,9 @@ export default function AnimalCard({
                     <p className="text-sm text-gray-400 mt-.5">
                         {userName} &bull; Trained: {hoursTrained} hours
                     </p>
+                </div>
+                <div className="ml-15 shrink-0">
+                    <DeleteButton id={animalId} type={"animal"} />
                 </div>
 
             </div>

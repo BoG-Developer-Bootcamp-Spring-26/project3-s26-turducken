@@ -16,3 +16,11 @@ export async function updateAnimal(animalId: string, newHours: Number) {
     const updatedAnimal = await animal.findByIdAndUpdate(animalId, { hoursTrained: newHours });
     return updatedAnimal;
 }
+
+export async function deleteAnimal(animalId: string) {
+    await animal.findByIdAndDelete(animalId);
+}
+
+export async function deleteAnimalsByUser(userId: string) {
+    await animal.deleteMany({ owner: userId });
+}
