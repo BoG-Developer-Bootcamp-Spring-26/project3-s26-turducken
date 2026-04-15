@@ -124,6 +124,10 @@ export default function SideBar({ isOpen, setIsOpen }: SideBarProps) {
             `}>
                 {/* Main Navigation */}
                 <nav className="flex flex-col">
+                    <button 
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="lg:hidden text-xl hover:cursor-pointer self-end"
+                    >✕</button>
                     {NAV_ITEMS.map((item) => {
                             const active = (pathname === item.href);
                             return (

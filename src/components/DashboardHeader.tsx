@@ -17,7 +17,7 @@ export default function DashboardHeader({ showForm, setShowForm, title, isOpen, 
             <div className="flex flex-row gap-4">
             <button 
                 onClick={() => setIsOpen(!isOpen)}
-                className="lg:hidden bg-white rounded-md border border-gray-300 shadow-sm px-2 mb-1 text-xl font-bold"
+                className="lg:hidden bg-white rounded-md border border-gray-300 shadow-sm px-2 mb-1 text-xl font-bold hover:cursor-pointer"
             >☰</button>
           <h1 className="md:text-3xl text-2xl font-semibold text-gray-500">{title}</h1>
           </div>
