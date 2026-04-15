@@ -31,6 +31,10 @@ export default function AnimalForm({ onSave, onCancel }: AnimalFormProps) {
     <form 
     onSubmit={(e) => {
       e.preventDefault();
+      if (Number(formData.hoursTrained) < 0) {
+        alert("Please enter a valid number of hours.");
+        return;
+      }
       onSave(formData);
     }}
     className="max-w-250 mx-auto bg-white px-2">

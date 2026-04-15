@@ -13,7 +13,7 @@ export default function AnimalCard({
     breed, name, hoursTrained, profilePicture, userName, animalId
 } : AnimalCardProps) {
     return (
-        <div className="w-full mx-auto bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+        <div className="w-full mx-auto bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-xl">
             <img 
                 src={profilePicture}
                 className="w-full h-64 object-cover"

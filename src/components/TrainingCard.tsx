@@ -59,7 +59,7 @@ export default function TrainingCard({
           </p>
         </div>
         <div className='flex flex-col gap-6 mt-5'>
-        <button onClick={handleEditLog} className='w-10 md:w-14'>
+        <button onClick={handleEditLog} className='w-10 md:w-14 hover:cursor-pointer'>
           <Image src="/images/trainingLogcardEditButton.png" alt="Edit Training Log" width={80} height={80} className='w-full h-auto'/>
         </button>
         <div className='shrink-0'>
