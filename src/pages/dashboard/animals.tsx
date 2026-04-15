@@ -14,7 +14,7 @@ export default function Animals() {
     const [showForm, setShowForm] = useState(false);
     const [animals, setAnimals] = useState<any[]>([]); 
     const [loading, setLoading] = useState(true);
-
+    const [isOpen, setIsOpen] = useState(false);
     if (!context) {
         return <div>Error: UserContext not found.</div>;
     }
@@ -35,7 +35,7 @@ export default function Animals() {
     };
 
     useEffect(() => {
-        fetchData()
+        fetchData();
     }, [userId, router]);
 
     if (!userId) return null;
@@ -45,9 +45,9 @@ export default function Animals() {
           <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
             <TitleBar />
             <div className="flex flex-row flex-1 overflow-hidden">
-              <SideBar />
+              <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
               <div className="flex-1 flex flex-col">
-                <DashboardHeader setShowForm={setShowForm} title="Animals"/>
+                <DashboardHeader setShowForm={setShowForm} title="Animals" isOpen={isOpen} setIsOpen={setIsOpen}/>
                 <p className="text-xl text-gray-500 p-8">Loading...</p>
               </div>
             </div>
@@ -84,9 +84,9 @@ export default function Animals() {
       <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
         <TitleBar />
         <div className="flex flex-row flex-1 overflow-hidden">
-            <SideBar />
+            <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
             <main className="flex-1 flex flex-col">
-                <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals"/>
+                <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Animals" isOpen={isOpen} setIsOpen={setIsOpen}/>
                 { showForm ? (
                     <div className="p-8 overflow-y-auto">
                        <AnimalForm
@@ -97,7 +97,7 @@ export default function Animals() {
                        />
                     </div>
                   ) : (
-                    <div className="p-8 mx-auto w-full max-w-7xl overflow-y-auto">
+                    <div className="p-8 mx-auto w-full overflow-y-auto">
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
                             {animals.length > 0 ? (
                                 animals.map((animal) => (

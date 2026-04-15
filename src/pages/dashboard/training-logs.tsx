@@ -16,6 +16,7 @@ export default function TrainingLogs() {
   const [loading, setLoading] = useState(true);
   const [initialData, setInitialData] = useState<any>(null);
   const [editingLog, setEditingLog] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   if (!context) {
     return <div>Error: UserContext not found.</div>;
@@ -46,9 +47,9 @@ export default function TrainingLogs() {
       <div className={`${oswald.variable} ${heebo.variable} relative min-h-screen flex flex-col bg-white font-heebo overflow-hidden`}>
             <TitleBar />
             <div className="flex flex-row flex-1 overflow-hidden">
-              <SideBar />
+              <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
               <div className="flex-1 flex flex-col">
-                <DashboardHeader setShowForm={setShowForm} title="Training logs"/>
+                <DashboardHeader setShowForm={setShowForm} title="Training logs" isOpen={isOpen} setIsOpen={setIsOpen}/>
                 <p className="text-xl text-gray-500 p-8">Loading...</p>
               </div>
             </div>
@@ -85,9 +86,9 @@ export default function TrainingLogs() {
     <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
       <TitleBar />
       <div className="flex flex-row flex-1 overflow-hidden">
-        <SideBar />
-        <main className="flex-1 flex flex-col bg-gray-50/10">
-            <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Training logs"/>
+        <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
+        <main className="flex-1 flex flex-col">
+            <DashboardHeader showForm={showForm} setShowForm={setShowForm} title="Training logs" isOpen={isOpen} setIsOpen={setIsOpen}/>
             { showForm ? (
                 <div className="flex-1 overflow-y-auto">
                     <TrainingForm

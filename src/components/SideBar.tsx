@@ -61,8 +61,12 @@ const ADMIN_ITEMS = [
         }
     }
 ]
+interface SideBarProps {
+    isOpen: boolean;
+    setIsOpen: (open: boolean) => void;
+}
 
-export default function SideBar() {
+export default function SideBar({ isOpen, setIsOpen }: SideBarProps) {
     const router = useRouter();
     const pathname = usePathname();
     const context = useContext(UserContext);
@@ -95,6 +99,7 @@ export default function SideBar() {
     
         useEffect(() => {
             fetchData();
+            setIsOpen(false);
         }, [userId, router]);
 
     const initials = fullName ? fullName[0].toUpperCase() : "";
@@ -105,34 +110,22 @@ export default function SideBar() {
     }
 
     return (
-        <div className="flex flex-col bg-white w-65 border-r border-gray-300 pt-4 px-4">
-            {/* Main Navigation */}
-            <nav className="flex flex-col">
-                {NAV_ITEMS.map((item) => {
-                        const active = (pathname === item.href);
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`flex items-center w-50 gap-3 px-3 py-2.5 rounded-lg transition-colors ${active ? "bg-[#D21312]" : ""}`}
-                            >
-                                {active ? item.icon.active : item.icon.inactive}
-                                <span className={active ? "text-white font-semibold text-lg" : "text-[#565252] font-normal text-lg"}> 
-                                    {item.label}
-                                </span>
-                            </Link>
-                        );
-                    })
-                }
-            </nav>
-
-            {/* Admin Navigation */}
-            {admin && (
-                <nav className="flex flex-col py-2">
-                    <hr className="border-t-2 border-gray-300"/>
-                    <p className="px-3 font-semibold text-lg text-[#565252] mt-3 mb-1">Admin access</p>
-                    {ADMIN_ITEMS.map((item) => {
-                            const active = pathname === item.href;
+        <>
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 bg-opacity-50 z-40 lg:hidden"
+                    onClick={() => setIsOpen(false)}
+                />
+            )}
+            <div className={`
+                fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-300 pt-24 lg:pt-4 px-4 flex flex-col transition-transform duration-300 ease-in-out
+                ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+                lg:translate-x-0 lg:static lg:flex
+            `}>
+                {/* Main Navigation */}
+                <nav className="flex flex-col">
+                    {NAV_ITEMS.map((item) => {
+                            const active = (pathname === item.href);
                             return (
                                 <Link
                                     key={item.href}
@@ -140,7 +133,7 @@ export default function SideBar() {
                                     className={`flex items-center w-50 gap-3 px-3 py-2.5 rounded-lg transition-colors ${active ? "bg-[#D21312]" : ""}`}
                                 >
                                     {active ? item.icon.active : item.icon.inactive}
-                                    <span className={active ? "text-white font-semibold text-lg" : "text-[#565252] font-normal text-lg"}>
+                                    <span className={active ? "text-white font-semibold text-lg" : "text-[#565252] font-normal text-lg"}> 
                                         {item.label}
                                     </span>
                                 </Link>
@@ -148,43 +141,67 @@ export default function SideBar() {
                         })
                     }
                 </nav>
-            )}
 
-            {/* Spacer */}
-            <div className="flex-1" />
+                {/* Admin Navigation */}
+                {admin && (
+                    <nav className="flex flex-col py-2">
+                        <hr className="border-t-2 border-gray-300"/>
+                        <p className="px-3 font-semibold text-lg text-[#565252] mt-3 mb-1">Admin access</p>
+                        {ADMIN_ITEMS.map((item) => {
+                                const active = pathname === item.href;
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className={`flex items-center w-50 gap-3 px-3 py-2.5 rounded-lg transition-colors ${active ? "bg-[#D21312]" : ""}`}
+                                    >
+                                        {active ? item.icon.active : item.icon.inactive}
+                                        <span className={active ? "text-white font-semibold text-lg" : "text-[#565252] font-normal text-lg"}>
+                                            {item.label}
+                                        </span>
+                                    </Link>
+                                );
+                            })
+                        }
+                    </nav>
+                )}
 
-            {/* User Footer */}
-            <div>
-                <hr className="border-t-2 border-gray-300"/>
-                <div className="flex items-center justify-between px-1 mb-3 mt-3">
-                    <div className="flex items-center gap-3">
-                        {/* Avatar */}
-                        <div>
-                            <div className="w-9 h-9 rounded-full bg-[#D21312] flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
-                                {initials}
+                {/* Spacer */}
+                <div className="flex-1" />
+
+                {/* User Footer */}
+                <div>
+                    <hr className="border-t-2 border-gray-300"/>
+                    <div className="flex items-center justify-between px-1 mb-3 mt-3">
+                        <div className="flex items-center gap-3">
+                            {/* Avatar */}
+                            <div>
+                                <div className="w-9 h-9 rounded-full bg-[#D21312] flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
+                                    {initials}
+                                </div>
+                            </div>
+                            {/* User Info */}
+                            <div className="flex flex-col">
+                                <p className="text-[#565252] font-bold text-med">
+                                    {fullName}
+                                </p>
+                                <p className="text-[#565252] text-sm">
+                                    {admin ? "Admin" : "User"}
+                                </p>
                             </div>
                         </div>
-                        {/* User Info */}
-                        <div className="flex flex-col">
-                            <p className="text-[#565252] font-bold text-med">
-                                {fullName}
-                            </p>
-                            <p className="text-[#565252] text-sm">
-                                {admin ? "Admin" : "User"}
-                            </p>
-                        </div>
-                    </div>
 
-                    {/* Logout Button */}
-                    <button 
-                        onClick={handleLogout}
-                        className="hover:opacity-80 cursor-pointer"
-                        title="Log Out"
-                    >
-                        <Image src={logoutButton} alt="Logout Button" style={{ transform: "scale(0.7)" }}/>
-                    </button>
+                        {/* Logout Button */}
+                        <button 
+                            onClick={handleLogout}
+                            className="hover:opacity-80 cursor-pointer"
+                            title="Log Out"
+                        >
+                            <Image src={logoutButton} alt="Logout Button" style={{ transform: "scale(0.7)" }}/>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
