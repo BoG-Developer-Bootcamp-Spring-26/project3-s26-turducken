@@ -32,19 +32,19 @@ export default function Users() {
               url += `&lastId=${lastId}`;
             }
             const response = await fetch(url);
-            const newUsers = await response.json()
+            const result = await response.json()
+            const newUsers = result.data;
+            const moreAvailable = result.hasMore;
+
             console.log("users: ", newUsers)
             if (newUsers.length > 0) {
               const newLastId = newUsers[newUsers.length - 1]._id;
               setLastId(newLastId);
   
               setUsers(prev => isLoadMore ? [...prev, ...newUsers] : newUsers);
-              if (newUsers.length < 15) {
-                setHasNextPage(false);
-              }
-          } else {
-              setHasNextPage(false);
-          }
+            }
+
+            setHasNextPage(moreAvailable)
         } catch (error) {
                 console.error("Failed to Fetch Users: ", error);
         } finally {

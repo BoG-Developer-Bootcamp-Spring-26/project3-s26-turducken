@@ -13,10 +13,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const users = await User.find(query)
         .select("-password")
         .sort({ _id: 1 }) 
-        .limit(pageSize)
+        .limit(pageSize + 1)
         .lean();
       
-      return res.status(200).json(users);
+        const hasMore = users.length > pageSize;
+        const results = hasMore ? users.slice(0, pageSize) : users;
+        
+        return res.status(200).json({
+          data: results,
+          hasMore: hasMore
+        });
     } catch (e) {
       return res.status(500).json({ message: "Internal server error" });
     } 

@@ -1,21 +1,14 @@
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import TrainingLog from "../../../../server/mongodb/models/TrainingLog";
 import connectDb from "../../../../server/mongodb/index";
-import mongoose from "mongoose";
+import User from "../../../../server/mongodb/models/User";
+import Animal from "../../../../server/mongodb/models/Animal";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
       await connectDb();
-      const { lastId, limit = "5" } = req.query;
-      const pageSize = parseInt(limit as string);
-      const query = lastId ? { _id: { $gt: new mongoose.Types.ObjectId(lastId as string) } } : {};
-
       const logs = await TrainingLog.aggregate([
-        { $match: query },
-        { $sort: { _id: 1 } },
-        { $limit: pageSize + 1},
         {
           $lookup: {
             from: "users",
@@ -52,14 +45,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }
         }
       ]);
-
-      const hasMore = logs.length > pageSize;
-      const results = hasMore ? logs.slice(0, pageSize) : logs;
       
-      return res.status(200).json({
-        data: results,
-        hasMore: hasMore
-      });
+      return res.status(200).json(logs);
     } catch (e) {
       return res.status(500).json({ message: "Internal server error" });
     }

@@ -16,22 +16,39 @@ export default function Animals() {
     const [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState("");
+    const [lastId, setLastId] = useState<string | null>(null);
+    const [hasNextPage, setHasNextPage] = useState(true);
+    const [isFetchingMore, setIsFetchingMore] = useState(false);
 
     if (!context) {
         return <div>Error: UserContext not found.</div>;
     }
     const { userId } = context;
 
-    const fetchData = async() => {
+    const fetchData = async(isLoadMore = false) => {
         try {
-            const response = await fetch('/api/admin/animals');
-            const allAnimals = await response.json()
-            console.log("animals: ", allAnimals)
-            setAnimals(allAnimals);
+          let url = '/api/admin/animals?limit=9';
+          if (isLoadMore && lastId) {
+            url += `&lastId=${lastId}`;
+          }
+          const response = await fetch(url);
+          const result = await response.json();
+          const newAnimals = result.data;
+          const moreAvailable = result.hasMore;
+
+          console.log("animals: ", newAnimals)
+          if (newAnimals.length > 0) {
+            const newLastId = newAnimals[newAnimals.length - 1]._id;
+            setLastId(newLastId);
+            setAnimals(prev => isLoadMore ? [...prev, ...newAnimals] : newAnimals);
+          }
+
+          setHasNextPage(moreAvailable);
         } catch (error) {
                 console.error("Failed to Fetch Animals: ", error);
         } finally {
             setLoading(false)
+            setIsFetchingMore(false);
         }
     };
 
@@ -67,25 +84,39 @@ export default function Animals() {
             <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
             <main className="flex-1 flex flex-col">
                 <DashboardHeader setShowForm={setShowForm} title="All animals" isOpen={isOpen} setIsOpen={setIsOpen}/>
-                <div className="p-8 mx-auto w-full overflow-y-auto">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-                        {filteredAnimals.length > 0 ? (
-                            filteredAnimals.map((animal) => (
-                              <AnimalCard
-                                key={animal._id}
-                                breed={animal.breed}
-                                name={animal.name}
-                                userName={animal.userName}
-                                hoursTrained={animal.hoursTrained}
-                                profilePicture={animal.profilePicture}
-                                animalId={animal._id}
-                              />
-                            ))
-                          ) : (
-                            <p className="text-xl text-gray-500">No animals found</p>
-                          )}
-                    </div>
-                </div>
+                  <div className="p-8 mx-auto w-full overflow-y-auto">
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
+                          {filteredAnimals.length > 0 ? (
+                              filteredAnimals.map((animal) => (
+                                <AnimalCard
+                                  key={animal._id}
+                                  breed={animal.breed}
+                                  name={animal.name}
+                                  userName={animal.userName}
+                                  hoursTrained={animal.hoursTrained}
+                                  profilePicture={animal.profilePicture}
+                                  animalId={animal._id}
+                                />
+                              ))
+                            ) : (
+                              <p className="text-xl text-gray-500">No animals found</p>
+                            )}
+                      </div>
+                      {hasNextPage && (
+                        <div className="flex justify-center mt-8 pb-12">
+                            <button
+                                onClick={() => {
+                                    setIsFetchingMore(true);
+                                    fetchData(true);
+                                }}
+                                disabled={isFetchingMore}
+                                className="text-black px-6 rounded hover:text-gray-600 disabled:text-gray-600"
+                            >
+                                {isFetchingMore ? "Loading..." : "Load More Animals"}
+                            </button>
+                        </div>
+                      )}
+                  </div>
             </main>
         </div>
       </div>
