@@ -11,13 +11,14 @@ interface TrainingCardProps {
     date: Date;
     description: string;
     hours: number;
+    isReadOnly: boolean;
     setInitialData: (data: any) => void;
     setShowForm: (show: boolean) => void;
     setEditingLog: (log: any) => void;
 }
 
 export default function TrainingCard({
-  trainingLogId, userName, animal, animalBreed, animalName, title, date, description, hours, setInitialData, setEditingLog, setShowForm
+  trainingLogId, userName, animal, animalBreed, animalName, title, date, description, hours, isReadOnly, setInitialData, setEditingLog, setShowForm
 }: TrainingCardProps) {
   const handleEditLog = () => {
     setShowForm(true);
@@ -59,9 +60,9 @@ export default function TrainingCard({
           </p>
         </div>
         <div className='flex flex-col gap-6 mt-2'>
-        <button onClick={handleEditLog} className='w-10 md:w-14 hover:cursor-pointer'>
+        {!isReadOnly && <button onClick={handleEditLog} className='w-10 md:w-14 hover:cursor-pointer'>
           <Image src="/images/trainingLogcardEditButton.png" alt="Edit Training Log" width={80} height={80} className='w-full h-auto'/>
-        </button>
+        </button>}
         <div className='shrink-0'>
         <DeleteButton type='training' id={trainingLogId}/>
         </div>

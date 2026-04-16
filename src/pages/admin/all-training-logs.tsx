@@ -5,7 +5,6 @@ import { heebo, oswald } from "..";
 import SearchBar from "@/components/SearchBar";
 import TrainingCard from "@/components/TrainingCard";
 import DashboardHeader from "@/components/DashboardHeader";
-import TrainingForm from "@/components/TrainingLogsForm";
 import SideBar from "@/components/SideBar";
 
 export default function TrainingLogs() {
@@ -61,31 +60,6 @@ export default function TrainingLogs() {
     );
   }
 
-  const handleSave = async (data: any) => {
-      try {
-        const response = await fetch("/api/training", {
-          method: editingLog ? "PATCH" : "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...data,
-            user: userId,
-            date: new Date(`${data.month} ${data.day}, ${data.year}`),
-            hours: Number(data.hours),
-          }),
-        });
-        if (response.ok) {
-          await fetchData();
-          setShowForm(false);
-          setEditingLog(false);
-        } else {
-          const errorData = await response.json();
-          alert(`Failed to save: ${errorData.message || 'Unknown error'}`);
-        }
-      } catch (error) {
-        console.error("Error saving log:", error);
-      }
-  };
-
   return (
     <div className={`${oswald.variable} ${heebo.variable} relative h-screen flex flex-col bg-white font-heebo`}>
       <SearchBar query={query} setQuery={setQuery} placeholder="Search all training logs..." />
@@ -93,19 +67,6 @@ export default function TrainingLogs() {
         <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
         <main className="flex-1 flex flex-col bg-gray-50/10">
             <DashboardHeader setShowForm={setShowForm} title="All training logs" isOpen={isOpen} setIsOpen={setIsOpen}/>
-            { showForm ? (
-                <div className="flex-1 overflow-y-auto">
-                    <TrainingForm
-                        initialData={initialData}
-                        onSave={handleSave}
-                        onCancel={() => {
-                        setShowForm(false)
-                        setEditingLog(false)
-                        }}
-                        editingLog={ editingLog }
-                    />
-                </div>
-                ) :
             <div className="w-full mx-auto p-8 flex flex-col gap-4 overflow-y-auto">
                 {filteredLogs.length > 0 ? (
                     filteredLogs.map((log) => (
@@ -123,12 +84,13 @@ export default function TrainingLogs() {
                     setShowForm={setShowForm}
                     setInitialData={setInitialData}
                     setEditingLog={setEditingLog}
+                    isReadOnly={true}
                     />
                     ))
                 ) : (
                     <p className="text-xl text-gray-500">No logs found</p>
                 )}
-            </div>}
+            </div>
         </main>
       </div>
     </div>
