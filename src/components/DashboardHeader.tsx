@@ -29,7 +29,7 @@ export default function DashboardHeader({ showForm, setShowForm, title, isOpen, 
                 width={24}
                 height={24}
               />
-              <span className="text-xl font-medium">Create new</span>
+              <span className="md:text-xl text-lg font-medium">Create new</span>
             </button>
           }
         </div>

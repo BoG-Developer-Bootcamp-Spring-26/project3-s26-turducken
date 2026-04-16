@@ -24,7 +24,7 @@ export default function AnimalCard({
                     <span className="text-white font-bold text-lg">{userName[0].toUpperCase()}</span>
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col flex-1">
                     <h2 className="text-base font-bold text-gray-900 leading-tight">
                         {name} - {breed}
                     </h2>
@@ -32,7 +32,7 @@ export default function AnimalCard({
                         {userName} &bull; Trained: {hoursTrained} hours
                     </p>
                 </div>
-                <div className="ml-15 shrink-0">
+                <div className="shrink-0">
                     <DeleteButton id={animalId} type={"animal"} />
                 </div>
 

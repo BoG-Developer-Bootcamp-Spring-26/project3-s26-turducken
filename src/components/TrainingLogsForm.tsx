@@ -84,8 +84,8 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
       }
       onSave(formData);
     }}
-    className="max-w-250 mx-auto bg-white px-2">
-        <div className="space-y-3">
+    className="max-w-200 mx-auto bg-white px-2">
+        <div className="space-y-4">
             <div>
                 <label className="block text-xl font-semibold text-gray-900">Title</label>
                 
