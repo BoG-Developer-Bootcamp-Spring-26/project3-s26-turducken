@@ -43,7 +43,7 @@ export default function TrainingForm({ initialData, editingLog, onSave, onCancel
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/admin/animals");
+        const response = await fetch("/api/user/animals");
         const allAnimals = await response.json();
         const userAnimals = allAnimals.filter((animal: any) => animal.owner === userId);
         setAnimals(userAnimals);

@@ -1,21 +1,12 @@
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import Animal from "../../../../server/mongodb/models/Animal";
 import connectDb from "../../../../server/mongodb/index";
-import mongoose from "mongoose";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
       await connectDb();
-      const { lastId, limit = "9" } = req.query;
-      const pageSize = parseInt(limit as string);
-      const query = lastId ? { _id: { $gt: new mongoose.Types.ObjectId(lastId as string) } } : {};
-
       const animals = await Animal.aggregate([
-        { $match: query },
-        { $sort: { _id: 1 } },
-        { $limit: pageSize + 1},
         {
             $lookup: {
                 from: "users",
@@ -40,13 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       ]);
       
-      const hasMore = animals.length > pageSize;
-      const results = hasMore ? animals.slice(0, pageSize) : animals;
-      
-      return res.status(200).json({
-        data: results,
-        hasMore: hasMore
-      });
+      return res.status(200).json(animals);
     } catch (e) {
       return res.status(500).json({ message: "Internal server error" });
     }

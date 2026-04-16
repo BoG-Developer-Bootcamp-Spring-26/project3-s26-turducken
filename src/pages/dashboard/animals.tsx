@@ -23,7 +23,7 @@ export default function Animals() {
 
     const fetchData = async() => {
         try {
-            const response = await fetch('/api/admin/animals');
+            const response = await fetch('/api/user/animals');
             const allAnimals = await response.json()
             const userAnimals = allAnimals.filter((animal: any) => animal.owner === userId).sort((a: any, b: any) => b.hoursTrained - a.hoursTrained);
             console.log("animals: ", userAnimals)
