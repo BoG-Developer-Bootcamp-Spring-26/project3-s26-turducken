@@ -27,7 +27,7 @@ export default function TrainingLogs() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("/api/admin/trainings");
+      const response = await fetch("/api/user/trainings");
       const allLogs = await response.json();
       const userLogs = allLogs.filter((log: any) => log.user === userId).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
       setLogs(userLogs);
