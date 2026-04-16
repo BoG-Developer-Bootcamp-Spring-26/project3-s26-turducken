@@ -59,7 +59,7 @@ export default function TrainingCard({
             {description}
           </p>
         </div>
-        <div className='flex flex-col gap-6 mt-2'>
+        <div className={!isReadOnly ? "flex flex-col gap-4 mt-2 items-center justify-between" : "flex flex-row gap-4 mt-2 items-center justify-between"}>
         {!isReadOnly && <button onClick={handleEditLog} className='w-10 md:w-14 hover:cursor-pointer'>
           <Image src="/images/trainingLogcardEditButton.png" alt="Edit Training Log" width={80} height={80} className='w-full h-auto'/>
         </button>}
