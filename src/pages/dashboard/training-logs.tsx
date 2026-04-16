@@ -124,6 +124,7 @@ export default function TrainingLogs() {
                     setShowForm={setShowForm}
                     setInitialData={setInitialData}
                     setEditingLog={setEditingLog}
+                    isReadOnly={false}
                     />
                     ))
                 ) : (
