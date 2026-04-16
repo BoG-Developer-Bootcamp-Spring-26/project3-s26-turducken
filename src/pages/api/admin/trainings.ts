@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import TrainingLog from "../../../../server/mongodb/models/TrainingLog";
 import connectDb from "../../../../server/mongodb/index";
-import User from "../../../../server/mongodb/models/User";
-import Animal from "../../../../server/mongodb/models/Animal";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
