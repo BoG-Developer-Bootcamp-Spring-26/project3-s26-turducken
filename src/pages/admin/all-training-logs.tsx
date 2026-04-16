@@ -84,84 +84,45 @@ export default function TrainingLogs() {
       <div className="flex flex-row flex-1 overflow-hidden">
         <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
         <main className="flex-1 flex flex-col bg-gray-50/10">
-            <DashboardHeader setShowForm={setShowForm} title="All training logs" isOpen={isOpen} setIsOpen={setIsOpen}/>
-<<<<<<< styling-fixes
-            <div className="w-full mx-auto p-8 flex flex-col gap-4 overflow-y-auto">
-                {filteredLogs.length > 0 ? (
-                    filteredLogs.map((log) => (
-                    <TrainingCard
-                    key={log._id}
-                    trainingLogId={log._id}
-                    userName={log.userName}
-                    animal={log.animal}
-                    animalBreed={log.animalBreed}
-                    animalName={log.animalName}
-                    date={new Date(log.date)}
-                    title={log.title}
-                    description={log.description}
-                    hours={log.hours}
-                    setShowForm={setShowForm}
-                    setInitialData={setInitialData}
-                    setEditingLog={setEditingLog}
-                    isReadOnly={true}
-                    />
-                    ))
-                ) : (
-                    <p className="text-xl text-gray-500">No logs found</p>
-                )}
-            </div>
-=======
-            { showForm ? (
-                <div className="flex-1 overflow-y-auto">
-                    <TrainingForm
-                        initialData={initialData}
-                        onSave={handleSave}
-                        onCancel={() => {
-                        setShowForm(false)
-                        setEditingLog(false)
-                        }}
-                        editingLog={ editingLog }
-                    />
-                </div>
-                ) :
-              <div className="w-full mx-auto p-8 flex flex-col gap-4 overflow-y-auto">
-                  {filteredLogs.length > 0 ? (
-                      filteredLogs.map((log) => (
-                      <TrainingCard
-                      key={log._id}
-                      trainingLogId={log._id}
-                      userName={log.userName}
-                      animal={log.animal}
-                      animalBreed={log.animalBreed}
-                      animalName={log.animalName}
-                      date={new Date(log.date)}
-                      title={log.title}
-                      description={log.description}
-                      hours={log.hours}
-                      setShowForm={setShowForm}
-                      setInitialData={setInitialData}
-                      setEditingLog={setEditingLog}
-                      />
-                      ))
-                  ) : (
-                      <p className="text-xl text-gray-500">No logs found</p>
-                  )}
-              {hasNextPage && !showForm && (
-                <div className="flex justify-center mt-8 pb-12">
-                  <button
-                      onClick={() => {
-                          setIsFetchingMore(true);
-                          fetchData(true);
-                      }}
-                      disabled={isFetchingMore}
-                      className="text-black px-6 rounded hover:text-gray-600 disabled:text-gray-600"
-                  >
-                      {isFetchingMore ? "Loading..." : "Load More Training Logs"}
-                  </button>
-                </div>
-              )}
-              </div>}
->>>>>>> main
+          <DashboardHeader setShowForm={setShowForm} title="All training logs" isOpen={isOpen} setIsOpen={setIsOpen}/>
+          <div className="w-full mx-auto p-8 flex flex-col gap-4 overflow-y-auto">
+            {filteredLogs.length > 0 ? (
+                filteredLogs.map((log) => (
+                <TrainingCard
+                key={log._id}
+                trainingLogId={log._id}
+                userName={log.userName}
+                animal={log.animal}
+                animalBreed={log.animalBreed}
+                animalName={log.animalName}
+                date={new Date(log.date)}
+                title={log.title}
+                description={log.description}
+                hours={log.hours}
+                setShowForm={setShowForm}
+                setInitialData={setInitialData}
+                setEditingLog={setEditingLog}
+                isReadOnly={true}
+                />
+                ))
+            ) : (
+                <p className="text-xl text-gray-500">No logs found</p>
+            )}
+            {hasNextPage && !showForm && (
+              <div className="flex justify-center mt-8 pb-12">
+                <button
+                    onClick={() => {
+                        setIsFetchingMore(true);
+                        fetchData(true);
+                    }}
+                    disabled={isFetchingMore}
+                    className="text-black px-6 rounded hover:text-gray-600 disabled:text-gray-600"
+                >
+                    {isFetchingMore ? "Loading..." : "Load More Training Logs"}
+                </button>
+              </div>
+            )}
+          </div>
         </main>
       </div>
     </div>
