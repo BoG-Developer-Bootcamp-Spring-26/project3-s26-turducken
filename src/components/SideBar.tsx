@@ -1,16 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import inactTrainingLog from "../../public/images/inactiveTrainingLogs.png";
-import inactAnimal from "../../public/images/inactiveAnimalLogo.png";
-import inactAllTraining from "../../public/images/inactiveAllTrainingLogo.png";
-import inactAllAnimals from "../../public/images/inactiveAllAnimalsLogo.png";
-import inactAllUsers from "../../public/images/inactiveAllUsersLogo.png";
-import actTrainingLog from "../../public/images/activeTrainingLogo.png";
-import actAnimal from "../../public/images/activeAnimalsLogo.png";
-import actAllTraining from "../../public/images/activeAllTrainingLogo.png";
-import actAllAnimals from "../../public/images/activeAllAnimalsLogo.png";
-import actAllUsers from "../../public/images/activeAllUsersLogo.png";
-import logoutButton from "../../public/images/logoutLogo.png"
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import { useState, useContext, useEffect } from "react";
@@ -21,16 +10,16 @@ const NAV_ITEMS = [
         label: "Training Logs",
         href: "/dashboard/training-logs",
         icon: {
-            inactive: <Image src={inactTrainingLog} alt="Training Log Icon" style={{ width: '15%', height: 'auto' }} />,
-            active: <Image src={actTrainingLog} alt = "Training Log Icon" style={{ width: '15%', height: 'auto' }} />
+            inactive: <Image src='/images/inactiveTrainingLogs.png' height={32} width={32} alt="Training Log Icon" style={{ width: '15%', height: 'auto' }} />,
+            active: <Image src='/images/activeTrainingLogo.png' height={32} width={32} alt = "Training Log Icon" style={{ width: '15%', height: 'auto' }} />
         }
     },
     {
         label: "Animals",
         href: "/dashboard/animals",
         icon: {
-            inactive: <Image src={inactAnimal} alt="Animal Icon" style={{ width: '15%', height: 'auto' }} />,
-            active: <Image src={actAnimal} alt = "Animal Icon" style={{ width: '15%', height: 'auto' }} />
+            inactive: <Image src='/images/inactiveAnimalLogo.png' height={32} width={32} alt="Animal Icon" style={{ width: '15%', height: 'auto' }} />,
+            active: <Image src='/images/activeAnimalsLogo.png' height={32} width={32} alt = "Animal Icon" style={{ width: '15%', height: 'auto' }} />
         }
     }
 ]
@@ -40,24 +29,24 @@ const ADMIN_ITEMS = [
         label: "All training",
         href: "/admin/all-training-logs",
         icon: {
-            inactive: <Image src={inactAllTraining} alt="All Training Logs Icon" style={{ width: '15%', height: 'auto' }} />,
-            active: <Image src={actAllTraining} alt="All Training Logs Icon" style={{ width: '15%', height: 'auto' }} />
+            inactive: <Image src='/images/inactiveAllTrainingLogo.png' height={32} width={28} alt="All Training Logs Icon" style={{ width: '15%', height: 'auto' }} />,
+            active: <Image src='/images/activeAllTrainingLogo.png' height={36} width={32} alt="All Training Logs Icon" style={{ width: '15%', height: 'auto' }} />
         }
     },
     {
         label: "All animals",
         href: "/admin/all-animals",
         icon: {
-            inactive: <Image src={inactAllAnimals} alt="All Animals Icon" style={{ width: '15%', height: 'auto' }} />,
-            active: <Image src={actAllAnimals} alt="All Animals Icon" style={{ width: '15%', height: 'auto' }} />
+            inactive: <Image src='/images/inactiveAllAnimalsLogo.png' width={37} height={30} alt="All Animals Icon" style={{ width: '15%', height: 'auto' }} />,
+            active: <Image src='/images/activeAllAnimalsLogo.png' alt="All Animals Icon" width={37} height={29} style={{ width: '15%', height: 'auto' }} />
         }
     },
     {
         label: "All users",
         href: "/admin/all-users",
         icon: {
-            inactive: <Image src={inactAllUsers} alt="All Users Icon" style={{ width: '15%', height: 'auto' }} />,
-            active: <Image src={actAllUsers} alt="All Users Icon" style={{ width: '15%', height: 'auto' }} />
+            inactive: <Image src='/images/inactiveAllUsersLogo.png' height={37} width={32} alt="All Users Icon" style={{ width: '15%', height: 'auto' }} />,
+            active: <Image src='/images/activeAllUsersLogo.png' height={37} width={32} alt="All Users Icon" style={{ width: '15%', height: 'auto' }} />
         }
     }
 ]
@@ -118,7 +107,7 @@ export default function SideBar({ isOpen, setIsOpen }: SideBarProps) {
                 />
             )}
             <div className={`
-                fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-300 pt-35 lg:pt-4 px-4 flex flex-col transition-transform duration-300 ease-in-out
+                fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-300 pt-35 md:pt-22 lg:pt-4 px-4 flex flex-col transition-transform duration-300 ease-in-out
                 ${isOpen ? "translate-x-0" : "-translate-x-full"} 
                 lg:translate-x-0 lg:static lg:flex
             `}>
@@ -201,7 +190,7 @@ export default function SideBar({ isOpen, setIsOpen }: SideBarProps) {
                             className="hover:opacity-80 cursor-pointer"
                             title="Log Out"
                         >
-                            <Image src={logoutButton} alt="Logout Button" style={{ transform: "scale(0.7)" }}/>
+                            <Image src='/images/logoutLogo.png' height={32} width={32}  alt="Logout Button" style={{ transform: "scale(0.7)" }}/>
                         </button>
                     </div>
                 </div>

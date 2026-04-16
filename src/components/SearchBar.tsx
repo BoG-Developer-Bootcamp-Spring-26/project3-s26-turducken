@@ -1,5 +1,4 @@
 import Image from "next/image";
-import searchLogo from "../../public/images/searchLogo.png";
 
 interface SearchBarProps {
     query: string;
@@ -30,9 +29,11 @@ export default function SearchBar({
             {/* Search Bar*/}
             <div className="flex items-center border-2 border-gray-300 rounded-xl px-4 h-12 w-full max-w-lg lg:absolute lg:left-1/2 lg:ml-8 lg:-translate-x-1/2">
                 <Image 
-                    src={searchLogo} 
+                    src='/images/searchLogo.png'
                     alt="Magnifying Glass" 
-                    className="w-5 h-5 mr-2 shrink-0" 
+                    width={22}
+                    height={22}
+                    className="mr-2 shrink-0" 
                 />
                 <input
                     type="text"
