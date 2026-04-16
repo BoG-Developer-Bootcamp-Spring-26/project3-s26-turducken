@@ -38,17 +38,17 @@ export default function TrainingCard({
     })
   }
   return (
-    <div className="flex bg-white rounded-2xl shadow-md mb-4 overflow-hidden border border-gray-100 h-40 shrink-0 md:mr-20 md:ml-20">
+    <div className="flex bg-white rounded-2xl shadow-md mb-4 overflow-hidden border border-gray-100 h-auto shrink-0 md:mr-20 md:ml-20">
       <div className="bg-blue-950 font-oswald text-white flex flex-col justify-center items-center px-3 md:px-4 gap-3">
-        <span className="text-6xl font-bold">{date.getDate()}</span>
-        <span className="text-2xl">{date.toLocaleString('default', { month: 'short' })} - {date.getFullYear()}</span>
+        <span className="md:text-6xl text-4xl font-bold">{date.getDate()}</span>
+        <span className="md:text-2xl text-lg">{date.toLocaleString('default', { month: 'short' })} - {date.getFullYear()}</span>
       </div>
 
-      <div className="flex flex-1 justify-between px-6 py-4">
+      <div className="flex flex-1 justify-between px-6 py-4 gap-2">
         <div className="flex flex-col md:gap-4 sm:gap-2">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <h3 className="md:text-3xl sm:text-xl font-bold text-gray-900">{title}</h3>
+              <h3 className="md:text-3xl sm:text-2xl font-bold text-gray-900">{title}</h3>
               <span className="text-gray-400 md:text-xl text-sm font-semibold">• {hours} hours</span>
             </div>
             <p className="text-gray-400 md:text-xl text-sm font-semibold">
